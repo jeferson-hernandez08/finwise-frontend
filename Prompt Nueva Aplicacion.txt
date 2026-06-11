@@ -1,0 +1,19 @@
+Hola este chat es para la realización de un aplicación, la aplicación que quiero hacer trata de administrar el sueldo o salario de una persona, una aplicación que
+permita registrar todos los gastos mensuales de la persona, que permita administrar de una mejor manera el dinero y ser cociente de los gastos que hay que pagar, 
+las deudas, que la persona permita tener una mejor admnistración del dinero y permita ser cociente de los gastos y deudas. La mision de la aplicación es educación
+financiera que permita mejorar la prosperidad financiera de las personas lo cual peude ser una aplicación con muchas ideas, lo 
+cual va permitir primero que por ejemplo la persona ingrese cual es su ingreso fijo o sueldo y luego permita ir agregando sus gastos 
+y permita que la persona pueda ver sus gastos y que a la vez permita ver que se va descontando el sueldo y ver cuanto le va quedando.
+Tambien la idea es que el sistema tenga meses es decir por ejemplo en el mes de junio se muestre el registro de gastos , el siguiente mes , etc ... Que la
+persona pueda cambiar cuantos fue su mes anterior  por ejemlo que puedo cambiar al mes anterior al mes aterior ara el saber como 
+fueron sus gastos de cada mes. 
+Tambien que la aplicación contenga y una seccion de ahorro y cada vez que la persona ingrese un un ahorro se vaya acumulando mes a a mes como un plan de ahorro, sea
+para lo que el quiera por ejemplo para una moto, para una casa, para un viaje , se permitan varios, etc ... 
+Primeramente vamos a dar nombre ideas de nombre para crear nuestro repositorio nombre en ingles y vamos a enfocarnos en la realización de la base 
+datos modelo relacional , vamos a enfocarnos primeramente en esas dos cosas nombre a repositorio y luego enfocarnnoos en la base de datos como
+construirla.
+Adicionalmnt la ida d la aplicación es que la persona puda ingrsar con su usuario o contraseña o su usuario de google. 
+
+Muy importante que las tecnologias que vamos a manejar es con backend API con nestJS y frameWork angular con typeScript pero primero vamos a enfocarnos en 
+el nombre del repositorio en ingles y en la construccion de la base de datos en mysql por el momento podemos hacerla por workbench construiremos la base datos con sus entidades.
+
