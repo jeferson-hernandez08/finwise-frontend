@@ -17,3 +17,4 @@ Adicionalmnt la ida d la aplicación es que la persona puda ingrsar con su usuar
 Muy importante que las tecnologias que vamos a manejar es con backend API con nestJS y frameWork angular con typeScript pero primero vamos a enfocarnos en 
 el nombre del repositorio en ingles y en la construccion de la base de datos en mysql por el momento podemos hacerla por workbench construiremos la base datos con sus entidades.
 
+Coomit
