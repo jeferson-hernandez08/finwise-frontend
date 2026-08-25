@@ -30,4 +30,5 @@ Prueba commit
 ==============================================================
 Promt Continuación
 ==============================================================
-1. Se inicia Frontend Instalacind de angular
+1. Se instala ultima version de Node 24.19.0 para poder instalar ultimo Angular
+2. Proceder a instalar angular DOc
