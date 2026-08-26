@@ -27,5 +27,6 @@ peroo no se si realizarla local o montarla en la nube con mongoatlas dime que op
 ==============================================================
 Promt Continuación
 ==============================================================
-1. Se instala ultima version de Node 24.19.0 para poder instalar ultimo Angular
+1. Se instala ultima version de Node 24.19.0 ultima version para poder instalar 
+   ultimo Angular ultima version
 2. Se instala Angular 22.1.5
