@@ -24,11 +24,8 @@ Hola, vamos a realizar un cambio, vamos a realizar la base de datos con MongoDB,
 las tecnologias que vamos a manejar es mongoDB, nestJS para backend y framework angular, primeramente necesito que me guies vamos a realizar la bbase de datos enfocarno en ella 
 peroo no se si realizarla local o montarla en la nube con mongoatlas dime que opinas  tambien dime por donde recomiendas empezar ?
 
-Prueba commit:
-
-
 ==============================================================
 Promt Continuación
 ==============================================================
 1. Se instala ultima version de Node 24.19.0 para poder instalar ultimo Angular
-2. Proceder a instalar angular DOc
+2. Se instala Angular 22.1.5
