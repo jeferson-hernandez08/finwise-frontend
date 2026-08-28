@@ -30,3 +30,5 @@ Promt Continuación
 1. Se instala ultima version de Node 24.19.0 ultima version para poder instalar 
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
+
+3. Que de en continiación realizacion login DEEESEEK
