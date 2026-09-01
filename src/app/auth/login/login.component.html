@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="text-center">FinWise</h2>
+          <p class="text-center text-muted">Inicia sesión para gestionar tus finanzas</p>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input id="email" type="email" class="form-control" formControlName="email" placeholder="tu@email.com">
+              @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                <div class="text-danger small">Email válido requerido</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input id="password" type="password" class="form-control" formControlName="password" placeholder="Mínimo 6 caracteres">
+              @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                <div class="text-danger small">Contraseña requerida (mínimo 6 caracteres)</div>
+              }
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">
+              Iniciar Sesión
+            </button>
+
+            @if (errorMessage()) {
+              <div class="alert alert-danger mt-3">{{ errorMessage() }}</div>
+            }
+          </form>
+
+          <hr class="my-3">
+          <button class="btn btn-danger w-100" (click)="loginWithGoogle()">
+            <i class="bi bi-google"></i> Iniciar con Google
+          </button>
+
+          <p class="text-center mt-3">
+            ¿No tienes cuenta? <a routerLink="/auth/register">Regístrate</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

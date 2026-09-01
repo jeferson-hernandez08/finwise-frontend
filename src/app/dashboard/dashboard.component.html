@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>📊 Dashboard</h1>
+    <div>
+      <span class="me-3">👋 {{ user()?.email }}</span>
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+  <hr>
+
+  <div class="row mt-4">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Ingresos</h5>
+          <p class="card-text display-6">$2,500</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body">
+          <h5 class="card-title">Gastos</h5>
+          <p class="card-text display-6">$1,200</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Ahorros</h5>
+          <p class="card-text display-6">$500</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body">
+          <h5 class="card-title">Deudas</h5>
+          <p class="card-text display-6">$800</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

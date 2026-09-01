@@ -1,7 +1,6 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 
@@ -11,66 +10,48 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
 
-  // Estado reactivo con Signals
-  private tokenSignal = signal<string | null>(localStorage.getItem('access_token'));
+  // Señal para el estado del usuario (reactivo)
+  user = signal<any>(null);
 
-  // Computed: si el token es válido
-  isAuthenticated = computed(() => {
-    const token = this.tokenSignal();
+  login(email: string, password: string) {
+    return this.http.post<{ access_token: string }>(`${this.apiUrl}/auth/login`, { email, password });
+  }
+
+  register(email: string, password: string, fullName: string) {
+    return this.http.post<{ access_token: string }>(`${this.apiUrl}/auth/register`, { email, password, fullName });
+  }
+
+  logout() {
+    localStorage.removeItem('access_token');
+    this.user.set(null);
+    this.router.navigate(['/auth/login']);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('access_token', token);
+    this.user.set(this.decodeToken(token));
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
     if (!token) return false;
     try {
       const decoded: any = jwtDecode(token);
-      const exp = decoded.exp * 1000;
-      return Date.now() < exp;
+      return decoded.exp * 1000 > Date.now();
     } catch {
       return false;
     }
-  });
+  }
 
-  // Computed: información del usuario
-  user = computed(() => {
-    const token = this.tokenSignal();
-    if (!token) return null;
+  private decodeToken(token: string) {
     try {
       return jwtDecode(token);
     } catch {
       return null;
     }
-  });
-
-  get token(): string | null {
-    return this.tokenSignal();
-  }
-
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/login`, { email, password }).pipe(
-      tap((res: any) => {
-        if (res.access_token) {
-          localStorage.setItem('access_token', res.access_token);
-          this.tokenSignal.set(res.access_token);
-        }
-      })
-    );
-  }
-
-  register(email: string, password: string, fullName: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/register`, { email, password, fullName }).pipe(
-      tap((res: any) => {
-        if (res.access_token) {
-          localStorage.setItem('access_token', res.access_token);
-          this.tokenSignal.set(res.access_token);
-        }
-      })
-    );
-  }
-
-  logout(): void {
-    localStorage.removeItem('access_token');
-    this.tokenSignal.set(null);
-    this.router.navigate(['/auth/login']);
-  }
-
-  loginWithGoogle(): void {
-    window.location.href = `${this.apiUrl}/auth/google`;
   }
 }
