@@ -31,4 +31,5 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Error que salio en el Front , corregir se comparte a ultimo chat , CORREGIR
+3. corregir se comparte a ultimo chat  , QUEDE EN : 2. Crear los archivos de rutas faltantes DEEEKSEP , 
+    En las routes
