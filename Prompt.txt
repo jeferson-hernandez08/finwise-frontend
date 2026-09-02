@@ -31,4 +31,4 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Que de en continiación realizacion login DEEESEEK
+3. Error que salio en el Front , corregir se comparte a ultimo chat , CORREGIR
