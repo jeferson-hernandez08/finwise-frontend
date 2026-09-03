@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { SavingsListComponent } from './list/savings-list.component';
-import { SavingsFormComponent } from './form/savings-form.component';
+import { ListComponent as SavingsListComponent } from './list/list.component';
+import { FormComponent as SavingsFormComponent } from './form/form.component';
 
 export const savingsRoutes: Routes = [
   { path: '', component: SavingsListComponent },

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { ExpensesListComponent } from './list/expenses-list.component';
-import { ExpensesFormComponent } from './form/expenses-form.component';
+import { ListComponent as ExpensesListComponent } from './list/list.component';
+import { FormComponent as ExpensesFormComponent } from './form/form.component';
 
 export const expensesRoutes: Routes = [
   { path: '', component: ExpensesListComponent },
