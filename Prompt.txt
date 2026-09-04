@@ -31,4 +31,5 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos dashboard paso al siguiente # Incomes (list y form)
+3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos dashboard paso al siguiente # Incomes (list y form) preguntar
+   que la idea quede lo mismo con los nombres de las tablas BD como Backend en Frontend
