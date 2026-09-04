@@ -31,4 +31,4 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Quede a pasar ULTIMO CHAT DEESEEK se elimina list y form generar list y forms.
+3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos dashboard paso al siguiente # Incomes (list y form)
