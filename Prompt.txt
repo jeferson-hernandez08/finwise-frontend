@@ -31,5 +31,7 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos dashboard paso al siguiente # Incomes (list y form) preguntar
+3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos completos voy para el paso 
+   Paso 2: Verificar que los archivos existen , revisar por que al parecer no se han creado aun los 
+   componentes. 
    que la idea quede lo mismo con los nombres de las tablas BD como Backend en Frontend
