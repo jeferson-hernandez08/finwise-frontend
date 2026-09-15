@@ -10,7 +10,6 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = environment.apiUrl;
 
-  // Señal para el estado del usuario (reactivo)
   user = signal<any>(null);
 
   login(email: string, password: string) {
@@ -33,7 +32,11 @@ export class AuthService {
 
   setToken(token: string) {
     localStorage.setItem('access_token', token);
-    this.user.set(this.decodeToken(token));
+    try {
+      this.user.set(jwtDecode(token));
+    } catch {
+      this.user.set(null);
+    }
   }
 
   isAuthenticated(): boolean {
@@ -44,14 +47,6 @@ export class AuthService {
       return decoded.exp * 1000 > Date.now();
     } catch {
       return false;
-    }
-  }
-
-  private decodeToken(token: string) {
-    try {
-      return jwtDecode(token);
-    } catch {
-      return null;
     }
   }
 }

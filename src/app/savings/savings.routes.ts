@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { ListComponent as SavingsListComponent } from './list/list.component';
-import { FormComponent as SavingsFormComponent } from './form/form.component';
+import { List } from './list/list';
+import { Form } from './form/form';
 
 export const savingsRoutes: Routes = [
-  { path: '', component: SavingsListComponent },
-  { path: 'new', component: SavingsFormComponent },
-  { path: 'edit/:id', component: SavingsFormComponent }
+  { path: '', component: List },
+  { path: 'new', component: Form },
+  { path: 'edit/:id', component: Form }
 ];
