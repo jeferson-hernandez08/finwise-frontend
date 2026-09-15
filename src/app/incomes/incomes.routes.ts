@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { ListComponent as IncomesListComponent } from './list/list.component';
-import { FormComponent as IncomesFormComponent } from './form/form.component';
+import { List } from './list/list';
+import { Form } from './form/form';
 
 export const incomesRoutes: Routes = [
-  { path: '', component: IncomesListComponent },
-  { path: 'new', component: IncomesFormComponent },
-  { path: 'edit/:id', component: IncomesFormComponent }
+  { path: '', component: List },
+  { path: 'new', component: Form },
+  { path: 'edit/:id', component: Form }
 ];
