@@ -32,6 +32,5 @@ Promt Continuación
 2. Se instala Angular 22.1.5
 
 3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos completos voy para el paso 
-   Paso 2: Verificar que los archivos existen , revisar por que al parecer no se han creado aun los 
-   componentes. 
-   que la idea quede lo mismo con los nombres de las tablas BD como Backend en Frontend
+   Ultimo chat , En arrancar Frontend y Backend , estructura Basica , conectar claude Front
+   🛠️ Paso 8: Ejecutar ng serve
