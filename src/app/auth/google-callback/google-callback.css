@@ -1,0 +1,24 @@
+.callback-box {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* El spinner de la hoja global mide 22px; aquí es el protagonista. */
+.loading .fw-spinner {
+  width: 36px;
+  height: 36px;
+  border-width: 3px;
+}
+
+.callback-box .fw-empty-icon {
+  font-size: 36px;
+}

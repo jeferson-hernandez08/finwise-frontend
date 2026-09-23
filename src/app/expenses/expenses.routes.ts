@@ -1,9 +1,19 @@
 import { Routes } from '@angular/router';
-import { List } from './list/list';
-import { Form } from './form/form';
 
 export const expensesRoutes: Routes = [
-  { path: '', component: List },
-  { path: 'new', component: Form },
-  { path: 'edit/:id', component: Form }
+  {
+    path: '',
+    title: 'Gastos | FinWise',
+    loadComponent: () => import('./list/list').then(m => m.List),
+  },
+  {
+    path: 'new',
+    title: 'Nuevo gasto | FinWise',
+    loadComponent: () => import('./form/form').then(m => m.Form),
+  },
+  {
+    path: 'edit/:id',
+    title: 'Editar gasto | FinWise',
+    loadComponent: () => import('./form/form').then(m => m.Form),
+  },
 ];

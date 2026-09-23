@@ -1,1 +1,132 @@
-<p>list works!</p>
+<section class="fw-page fw-stack-lg">
+  <header class="fw-row-between">
+    <h1 class="fw-title">Mis deudas</h1>
+    @if (!loading() && activeCount() > 0) {
+      <span class="fw-chip">
+        {{ activeCount() }} {{ activeCount() === 1 ? 'activa' : 'activas' }}
+      </span>
+    }
+  </header>
+
+  @if (loading()) {
+    <div class="fw-stack" aria-hidden="true">
+      <div class="fw-skeleton skeleton--summary"></div>
+      @for (item of skeletons; track item) {
+        <div class="fw-skeleton skeleton--card"></div>
+      }
+    </div>
+    <p class="fw-sr-only">Cargando tus deudas…</p>
+  } @else {
+    @if (rows().length === 0) {
+      <div class="fw-empty">
+        <div class="fw-empty-icon">▰</div>
+        <p class="fw-card-title">No tienes deudas registradas</p>
+        <p>
+          Vas libre de deudas: todo lo que ganas es tuyo. Si tienes alguna
+          pendiente, anótala y mírala bajar mes a mes.
+        </p>
+        <button type="button" class="fw-btn empty-action" routerLink="/debts/new">
+          Añadir una deuda
+        </button>
+      </div>
+    } @else {
+      <article class="fw-card summary">
+        <p class="fw-label">Total adeudado</p>
+        <p class="fw-amount fw-negative summary__amount">
+          {{ totalRemaining() | money }}
+        </p>
+        <p class="fw-muted summary__original">
+          de {{ totalOriginal() | money }} que pediste en total
+        </p>
+
+        <div class="fw-progress summary__bar">
+          <span [style.width.%]="paidPercentage()"></span>
+        </div>
+        <p class="fw-subtitle summary__caption">
+          Has pagado el {{ paidPercentage() }}% de tus deudas
+        </p>
+      </article>
+
+      <ul class="fw-list debt-list">
+        @for (row of rows(); track row.debt._id) {
+          <li
+            class="fw-card debt-card"
+            [class.debt-card--paid]="row.status === 'paid'"
+          >
+            <a class="debt-card__body" [routerLink]="['/debts/detail', row.debt._id]">
+              <div class="fw-row-between debt-card__head">
+                <h2 class="debt-card__name fw-truncate">{{ row.debt.name }}</h2>
+                @if (row.debt.interest_rate) {
+                  <span class="fw-chip">{{ row.debt.interest_rate }}% interés</span>
+                }
+              </div>
+
+              <p
+                class="fw-amount debt-card__amount"
+                [class.fw-negative]="row.status !== 'paid'"
+                [class.fw-positive]="row.status === 'paid'"
+              >
+                {{ row.debt.remaining_amount | money }}
+              </p>
+              <p class="fw-muted debt-card__of">
+                de {{ row.debt.total_amount | money }}
+              </p>
+
+              <div class="fw-progress debt-card__bar">
+                <span
+                  [style.width.%]="row.percentage"
+                  [class.is-done]="row.status === 'paid'"
+                ></span>
+              </div>
+              <p class="fw-faint debt-card__percent">{{ row.percentage }}% pagado</p>
+
+              <div class="debt-card__foot">
+                @if (row.debt.minimum_monthly_payment) {
+                  <span class="fw-chip">
+                    Cuota {{ row.debt.minimum_monthly_payment | money }}
+                  </span>
+                }
+                @if (row.debt.due_date) {
+                  <span class="fw-chip">Vence {{ row.debt.due_date | fecha }}</span>
+                }
+
+                @switch (row.status) {
+                  @case ('paid') {
+                    <span class="fw-chip fw-chip--success">Pagada</span>
+                  }
+                  @case ('overdue') {
+                    <span class="fw-chip fw-chip--danger">Vencida</span>
+                  }
+                  @case ('soon') {
+                    <span class="fw-chip fw-chip--warning">Vence pronto</span>
+                  }
+                }
+              </div>
+            </a>
+
+            @if (row.status !== 'paid') {
+              <div class="debt-card__actions">
+                <button
+                  type="button"
+                  class="fw-btn fw-btn--sm debt-card__pay"
+                  (click)="goToPayment(row.debt)"
+                >
+                  Abonar
+                </button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+
+      <button
+        type="button"
+        class="fw-fab"
+        routerLink="/debts/new"
+        aria-label="Añadir deuda"
+      >
+        +
+      </button>
+    }
+  }
+</section>

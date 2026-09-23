@@ -1,1 +1,221 @@
-<p>form works!</p>
+<div class="fw-page">
+  <header class="head">
+    <button type="button" class="back" (click)="cancel()" aria-label="Volver">
+      ‹
+    </button>
+    <h1 class="fw-title">{{ isEdit ? 'Editar gasto' : 'Nuevo gasto' }}</h1>
+  </header>
+
+  @if (notFound()) {
+    <!-- El gasto no existe o ya fue eliminado -->
+    <div class="fw-card fw-empty">
+      <div class="fw-empty-icon" aria-hidden="true">🤷</div>
+      <p>{{ notFound() }}</p>
+      <button type="button" class="fw-btn" (click)="goToList()">
+        Volver a gastos
+      </button>
+    </div>
+  } @else if (loading()) {
+    <div class="fw-stack" aria-live="polite">
+      <span class="fw-sr-only">Cargando el gasto…</span>
+      <div class="fw-skeleton skeleton-amount"></div>
+      <div class="fw-skeleton skeleton-block"></div>
+      <div class="fw-skeleton skeleton-row"></div>
+      <div class="fw-skeleton skeleton-row"></div>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="save()" class="fw-stack-lg" novalidate>
+      @if (formError()) {
+        <p class="fw-alert">{{ formError() }}</p>
+      }
+
+      <!-- Monto: el campo principal de la pantalla -->
+      <section class="fw-card amount-card">
+        <label class="fw-label" for="amount">Monto</label>
+        <div class="amount-row" [class.is-invalid]="invalid('amount')">
+          <span class="amount-currency" aria-hidden="true">$</span>
+          <input
+            id="amount"
+            type="number"
+            inputmode="numeric"
+            class="amount-input"
+            placeholder="0"
+            min="1"
+            step="1"
+            autocomplete="off"
+            formControlName="amount"
+          />
+        </div>
+        @if (invalid('amount')) {
+          <p class="fw-error">{{ errorFor('amount') }}</p>
+        } @else if (form.controls.amount.value) {
+          <p class="fw-hint">{{ form.controls.amount.value | money }}</p>
+        }
+      </section>
+
+      <!-- Categoría: rejilla táctil en vez de un select -->
+      <section class="fw-field">
+        <span class="group-label" id="cat-label">Categoría</span>
+        @if (loadingCategories()) {
+          <div class="cat-grid">
+            @for (cell of skeletonCells; track cell) {
+              <div class="fw-skeleton skeleton-cat"></div>
+            }
+          </div>
+        } @else if (categoryList().length === 0) {
+          <p class="fw-alert">
+            No pudimos cargar las categorías. Revisa tu conexión e inténtalo de
+            nuevo.
+          </p>
+        } @else {
+          <div class="cat-grid" role="group" aria-labelledby="cat-label">
+            @for (category of categoryList(); track category._id) {
+              <button
+                type="button"
+                class="cat"
+                [class.is-selected]="
+                  form.controls.category_id.value === category._id
+                "
+                [attr.aria-pressed]="
+                  form.controls.category_id.value === category._id
+                "
+                (click)="selectCategory(category._id)"
+              >
+                <span class="cat-icon" aria-hidden="true">
+                  {{ categories.icon(category.name) }}
+                </span>
+                <span class="cat-name">{{
+                  categories.label(category.name)
+                }}</span>
+              </button>
+            }
+          </div>
+        }
+        @if (invalid('category_id')) {
+          <p class="fw-error">{{ errorFor('category_id') }}</p>
+        }
+      </section>
+
+      <!-- Descripción -->
+      <div class="fw-field">
+        <label for="description"
+          >Descripción <span class="fw-faint">(opcional)</span></label
+        >
+        <input
+          id="description"
+          type="text"
+          class="fw-input"
+          maxlength="120"
+          placeholder="Ej. Mercado de la semana"
+          autocomplete="off"
+          formControlName="description"
+          [class.is-invalid]="invalid('description')"
+        />
+        @if (invalid('description')) {
+          <p class="fw-error">{{ errorFor('description') }}</p>
+        } @else {
+          <p class="fw-hint">
+            {{ form.controls.description.value.length }}/120
+          </p>
+        }
+      </div>
+
+      <!-- Fecha -->
+      <div class="fw-field">
+        <label for="date">Fecha</label>
+        <input
+          id="date"
+          type="date"
+          class="fw-input"
+          formControlName="date"
+          [class.is-invalid]="invalid('date')"
+        />
+        @if (invalid('date')) {
+          <p class="fw-error">{{ errorFor('date') }}</p>
+        }
+      </div>
+
+      <!-- Pago de deuda -->
+      <section class="fw-card fw-stack debt-card">
+        <label class="check">
+          <input type="checkbox" formControlName="is_debt_payment" />
+          <span>Es el pago de una deuda</span>
+        </label>
+
+        @if (form.controls.is_debt_payment.value) {
+          @if (debtOptions().length === 0) {
+            <p class="fw-alert fw-alert--info">
+              No tienes deudas con saldo pendiente. Regístrala primero en la
+              sección Deudas.
+            </p>
+          } @else {
+            <div class="fw-field">
+              <label for="debt">Deuda</label>
+              <select
+                id="debt"
+                class="fw-select"
+                formControlName="debt_id"
+                [class.is-invalid]="invalid('debt_id')"
+              >
+                <option value="">Selecciona una deuda</option>
+                @for (debt of debtOptions(); track debt._id) {
+                  <option [value]="debt._id">
+                    {{ debt.name }} — resta {{ debt.remaining_amount | money }}
+                  </option>
+                }
+              </select>
+              @if (invalid('debt_id')) {
+                <p class="fw-error">{{ errorFor('debt_id') }}</p>
+              }
+            </div>
+          }
+          <p class="fw-hint">
+            Al guardar, este monto se descontará del saldo pendiente de la
+            deuda.
+          </p>
+        }
+      </section>
+
+      <!-- Acciones -->
+      <div class="fw-stack actions">
+        <button
+          type="submit"
+          class="fw-btn fw-btn--block"
+          [disabled]="saving() || deleting()"
+        >
+          @if (saving()) {
+            <span class="fw-spinner" aria-hidden="true"></span>
+            Guardando…
+          } @else {
+            Guardar
+          }
+        </button>
+
+        <button
+          type="button"
+          class="fw-btn fw-btn--ghost fw-btn--block"
+          (click)="cancel()"
+          [disabled]="saving() || deleting()"
+        >
+          Cancelar
+        </button>
+
+        @if (isEdit) {
+          <button
+            type="button"
+            class="fw-btn fw-btn--danger fw-btn--block"
+            (click)="remove()"
+            [disabled]="saving() || deleting()"
+          >
+            @if (deleting()) {
+              <span class="fw-spinner" aria-hidden="true"></span>
+              Eliminando…
+            } @else {
+              Eliminar gasto
+            }
+          </button>
+        }
+      </div>
+    </form>
+  }
+</div>

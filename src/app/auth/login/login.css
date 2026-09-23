@@ -1,0 +1,106 @@
+/* Caja centrada: en móvil ocupa todo el ancho, en escritorio se limita. */
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.brand {
+  text-align: center;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--fw-primary);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  box-shadow: var(--fw-shadow);
+}
+
+.brand-name {
+  margin-top: 12px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-claim {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--fw-text-muted);
+}
+
+/* El botón de ver/ocultar se superpone al campo sin taparle el texto. */
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap .fw-input {
+  padding-right: 76px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  min-width: 64px;
+  min-height: 44px;
+  border: none;
+  border-radius: var(--fw-radius-sm);
+  background: transparent;
+  color: var(--fw-primary-dark);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.password-toggle:active {
+  background: var(--fw-surface-alt);
+}
+
+/* Separador "o" con una línea a cada lado. */
+.separator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--fw-text-faint);
+  font-size: 12px;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--fw-border);
+}
+
+.auth-foot {
+  text-align: center;
+}
+
+.auth-link {
+  color: var(--fw-primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+  /* Área táctil cómoda dentro de una línea de texto. */
+  display: inline-block;
+  padding: 6px 4px;
+}
+
+@media (min-width: 768px) {
+  .brand-mark {
+    width: 64px;
+    height: 64px;
+    font-size: 23px;
+  }
+}

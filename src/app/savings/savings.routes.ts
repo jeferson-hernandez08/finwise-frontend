@@ -1,9 +1,24 @@
 import { Routes } from '@angular/router';
-import { List } from './list/list';
-import { Form } from './form/form';
 
 export const savingsRoutes: Routes = [
-  { path: '', component: List },
-  { path: 'new', component: Form },
-  { path: 'edit/:id', component: Form }
+  {
+    path: '',
+    title: 'Mis metas de ahorro | FinWise',
+    loadComponent: () => import('./list/list').then(m => m.List),
+  },
+  {
+    path: 'new',
+    title: 'Nueva meta de ahorro | FinWise',
+    loadComponent: () => import('./form/form').then(m => m.Form),
+  },
+  {
+    path: 'detail/:id',
+    title: 'Detalle de la meta | FinWise',
+    loadComponent: () => import('./detail/detail').then(m => m.Detail),
+  },
+  {
+    path: 'edit/:id',
+    title: 'Editar meta de ahorro | FinWise',
+    loadComponent: () => import('./form/form').then(m => m.Form),
+  },
 ];

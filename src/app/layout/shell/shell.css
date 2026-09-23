@@ -1,0 +1,179 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+/* --- Cabecera ----------------------------------------------------------- */
+.shell-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--fw-surface);
+  border-bottom: 1px solid var(--fw-border);
+}
+
+.shell-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--fw-header-height);
+  padding: 0 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: var(--fw-text);
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--fw-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-name {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.avatar-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--fw-primary-light);
+  color: var(--fw-primary-dark);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* --- Menú de cuenta ----------------------------------------------------- */
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+}
+
+.account-menu {
+  position: absolute;
+  top: calc(var(--fw-header-height) + 6px);
+  right: 16px;
+  z-index: 36;
+  width: 220px;
+  background: var(--fw-surface);
+  border-radius: var(--fw-radius);
+  box-shadow: var(--fw-shadow-lg);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.account-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.account-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.menu-action {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-sm);
+  background: transparent;
+  color: var(--fw-danger);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.menu-action:hover {
+  background: var(--fw-danger-light);
+}
+
+/* --- Contenido ---------------------------------------------------------- */
+.shell-main {
+  display: block;
+}
+
+/* --- Navegación inferior ------------------------------------------------ */
+.shell-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  height: calc(var(--fw-nav-height) + var(--fw-safe-bottom));
+  padding-bottom: var(--fw-safe-bottom);
+  background: var(--fw-surface);
+  border-top: 1px solid var(--fw-border);
+}
+
+.nav-link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--fw-text-faint);
+  /* Los nombres largos no deben romper el reparto en 5 columnas. */
+  min-width: 0;
+  padding: 0 2px;
+}
+
+.nav-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.nav-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.nav-link.is-active {
+  color: var(--fw-primary);
+}
+
+@media (min-width: 768px) {
+  .shell-nav {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .nav-link {
+    flex: 0 0 auto;
+    min-width: 96px;
+  }
+
+  .nav-label {
+    font-size: 12px;
+  }
+}

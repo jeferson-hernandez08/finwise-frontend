@@ -1,0 +1,56 @@
+/* Emoji que acompaña al título y cambia según lo que se escribe. */
+.head-emoji {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.skeleton {
+  height: 72px;
+}
+
+/* ---- Sugerencias de nombre ---------------------------------------------- */
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.suggestion {
+  /* Área táctil cómoda: las chips por defecto son demasiado bajas. */
+  min-height: 36px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ---- Acumulado en modo edición ------------------------------------------ */
+.saved {
+  margin: 0;
+  font-size: 20px;
+}
+
+.detail-link {
+  align-self: flex-start;
+  margin-top: 2px;
+  /* 44px de alto para que sea cómodo de tocar en móvil. */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--fw-primary-dark);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.detail-link:hover {
+  text-decoration: underline;
+}
+
+/* ---- Escritorio --------------------------------------------------------- */
+@media (min-width: 768px) {
+  .head-emoji {
+    font-size: 34px;
+  }
+}

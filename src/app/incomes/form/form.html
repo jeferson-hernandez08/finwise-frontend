@@ -1,1 +1,122 @@
-<p>form works!</p>
+<section class="fw-page fw-stack-lg">
+  <header class="fw-row">
+    <a class="back" routerLink="/incomes" aria-label="Volver a ingresos">‹</a>
+    <div>
+      <h1 class="fw-title">{{ isEdit() ? 'Editar ingreso' : 'Registrar ingreso' }}</h1>
+      <p class="fw-subtitle">Sueldo o ingreso fijo del mes</p>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="fw-card fw-stack">
+      <div class="fw-skeleton sk-amount"></div>
+      <div class="fw-skeleton sk-field"></div>
+      <div class="fw-skeleton sk-field"></div>
+    </div>
+  } @else {
+    <form class="fw-stack-lg" [formGroup]="form" (ngSubmit)="save()">
+      <article class="fw-card fw-stack-lg">
+        <!-- Monto: el campo protagonista de la pantalla -->
+        <div class="fw-field">
+          <label for="amount">Monto recibido</label>
+          <div class="amount-box" [class.is-invalid]="showError('amount')">
+            <span class="currency" aria-hidden="true">$</span>
+            <input
+              id="amount"
+              class="amount-input"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="0"
+              formControlName="amount"
+              [attr.aria-invalid]="showError('amount')"
+            />
+          </div>
+
+          @if (showError('amount')) {
+            <p class="fw-error">{{ amountError() }}</p>
+          } @else if (amountPreview() !== null) {
+            <p class="fw-hint">{{ amountPreview() | money }}</p>
+          }
+        </div>
+
+        <div class="fw-grid-2">
+          <div class="fw-field">
+            <label for="month">Mes</label>
+            <select id="month" class="fw-select" formControlName="month">
+              @for (name of months; track $index) {
+                <option [ngValue]="$index + 1">{{ name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="fw-field">
+            <label for="year">Año</label>
+            <select id="year" class="fw-select" formControlName="year">
+              @for (y of years(); track y) {
+                <option [ngValue]="y">{{ y }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        @if (duplicate(); as existing) {
+          <div class="fw-alert dup">
+            <p>
+              Ya registraste un ingreso para {{ duplicateLabel() }}. Edítalo en vez de
+              crear otro.
+            </p>
+            <a
+              class="fw-btn fw-btn--sm dup-link"
+              [routerLink]="['/incomes/edit', existing._id]"
+            >
+              Ir a ese ingreso
+            </a>
+          </div>
+        }
+
+        <p class="fw-hint">
+          Este es el sueldo o ingreso fijo del mes: de él se descuentan los gastos que
+          registres para calcular cuánto te queda. Solo puede haber un ingreso por mes.
+        </p>
+      </article>
+
+      <div class="fw-stack">
+        <button
+          type="submit"
+          class="fw-btn fw-btn--block"
+          [disabled]="saving() || deleting() || duplicate() !== null"
+        >
+          @if (saving()) {
+            <span class="fw-spinner"></span>
+          } @else {
+            {{ isEdit() ? 'Guardar cambios' : 'Guardar ingreso' }}
+          }
+        </button>
+
+        <a class="fw-btn fw-btn--ghost fw-btn--block" routerLink="/incomes">Cancelar</a>
+      </div>
+
+      @if (isEdit()) {
+        <div class="danger-zone">
+          <button
+            type="button"
+            class="fw-btn fw-btn--danger fw-btn--block"
+            (click)="removeIncome()"
+            [disabled]="deleting() || saving()"
+          >
+            @if (deleting()) {
+              <span class="fw-spinner"></span>
+            } @else {
+              Eliminar ingreso
+            }
+          </button>
+          <p class="fw-hint">
+            El mes quedará sin sueldo registrado y su saldo se calculará como si no
+            hubieras recibido nada.
+          </p>
+        </div>
+      }
+    </form>
+  }
+</section>

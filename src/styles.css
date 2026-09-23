@@ -1,1 +1,551 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   FinWise — sistema de diseño global (mobile-first)
+   ========================================================================== */
+
+/* --- Tokens ------------------------------------------------------------- */
+:root {
+  --fw-primary: #0d9488;
+  --fw-primary-dark: #0f766e;
+  --fw-primary-light: #ccfbf1;
+  --fw-accent: #6366f1;
+  --fw-danger: #e11d48;
+  --fw-danger-light: #ffe4e6;
+  --fw-warning: #f59e0b;
+  --fw-warning-light: #fef3c7;
+  --fw-success: #16a34a;
+  --fw-success-light: #dcfce7;
+
+  --fw-bg: #f4f6f8;
+  --fw-surface: #ffffff;
+  --fw-surface-alt: #f9fafb;
+  --fw-border: #e5e7eb;
+  --fw-text: #111827;
+  --fw-text-muted: #6b7280;
+  --fw-text-faint: #9ca3af;
+
+  --fw-radius: 16px;
+  --fw-radius-sm: 10px;
+  --fw-radius-pill: 999px;
+  --fw-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 4px 16px rgba(16, 24, 40, 0.06);
+  --fw-shadow-lg: 0 8px 32px rgba(16, 24, 40, 0.12);
+
+  /* Altura de la barra de navegación inferior + safe area del dispositivo. */
+  --fw-nav-height: 64px;
+  --fw-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --fw-header-height: 60px;
+
+  /* Paleta categórica de las gráficas: matices distinguibles en pantalla pequeña. */
+  --fw-c1: #0d9488;
+  --fw-c2: #6366f1;
+  --fw-c3: #f59e0b;
+  --fw-c4: #e11d48;
+  --fw-c5: #0ea5e9;
+  --fw-c6: #8b5cf6;
+  --fw-c7: #84cc16;
+  --fw-c8: #f97316;
+  --fw-c9: #64748b;
+}
+
+/* --- Reset -------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--fw-bg);
+  color: var(--fw-text);
+  font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* Evita el rebote horizontal en móvil. */
+  overflow-x: hidden;
+}
+
+/* Desactiva el resaltado azul al tocar en móvil. */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* --- Layout ------------------------------------------------------------- */
+
+/* Contenedor de página: ancho completo en móvil, centrado y limitado en escritorio. */
+.fw-page {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+  /* Espacio para que la barra inferior no tape el último elemento. */
+  padding-bottom: calc(var(--fw-nav-height) + var(--fw-safe-bottom) + 24px);
+}
+
+.fw-page--wide {
+  max-width: 900px;
+}
+
+/* Página sin barra inferior (login, registro). */
+.fw-page--plain {
+  padding-bottom: 32px;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fw-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fw-stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fw-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fw-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fw-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.fw-spacer {
+  flex: 1;
+}
+
+/* --- Tarjetas ----------------------------------------------------------- */
+.fw-card {
+  background: var(--fw-surface);
+  border-radius: var(--fw-radius);
+  box-shadow: var(--fw-shadow);
+  padding: 16px;
+}
+
+.fw-card--flat {
+  box-shadow: none;
+  border: 1px solid var(--fw-border);
+}
+
+.fw-card--tight {
+  padding: 12px;
+}
+
+.fw-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* --- Tipografía --------------------------------------------------------- */
+.fw-title {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.fw-subtitle {
+  font-size: 13px;
+  color: var(--fw-text-muted);
+}
+
+.fw-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--fw-text-muted);
+}
+
+.fw-amount {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  /* Los montos nunca deben partirse a mitad. */
+  white-space: nowrap;
+}
+
+.fw-amount-sm {
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fw-muted {
+  color: var(--fw-text-muted);
+}
+
+.fw-faint {
+  color: var(--fw-text-faint);
+}
+
+.fw-positive {
+  color: var(--fw-success);
+}
+
+.fw-negative {
+  color: var(--fw-danger);
+}
+
+.fw-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* --- Botones ------------------------------------------------------------ */
+.fw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* 44px es el mínimo táctil cómodo en móvil. */
+  min-height: 46px;
+  padding: 0 18px;
+  border: none;
+  border-radius: var(--fw-radius-sm);
+  background: var(--fw-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.08s ease;
+}
+
+.fw-btn:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.fw-btn:hover:not(:disabled) {
+  background: var(--fw-primary-dark);
+}
+
+.fw-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fw-btn--block {
+  width: 100%;
+}
+
+.fw-btn--ghost {
+  background: transparent;
+  color: var(--fw-text);
+  border: 1px solid var(--fw-border);
+}
+
+.fw-btn--ghost:hover:not(:disabled) {
+  background: var(--fw-surface-alt);
+}
+
+.fw-btn--danger {
+  background: var(--fw-danger);
+}
+
+.fw-btn--danger:hover:not(:disabled) {
+  background: #be123c;
+}
+
+.fw-btn--sm {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+/* Botón flotante de acción principal, justo encima de la barra inferior. */
+.fw-fab {
+  position: fixed;
+  right: max(16px, calc(50% - 280px + 16px));
+  bottom: calc(var(--fw-nav-height) + var(--fw-safe-bottom) + 16px);
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: var(--fw-primary);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  box-shadow: var(--fw-shadow-lg);
+  cursor: pointer;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fw-fab:active {
+  transform: scale(0.94);
+}
+
+/* --- Formularios -------------------------------------------------------- */
+.fw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fw-field > label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fw-text);
+}
+
+.fw-input,
+.fw-select,
+.fw-textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 14px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-sm);
+  background: var(--fw-surface);
+  color: var(--fw-text);
+  /* 16px evita que iOS haga zoom automático al enfocar el campo. */
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fw-input:focus,
+.fw-select:focus,
+.fw-textarea:focus {
+  outline: none;
+  border-color: var(--fw-primary);
+  box-shadow: 0 0 0 3px var(--fw-primary-light);
+}
+
+.fw-input.is-invalid,
+.fw-select.is-invalid {
+  border-color: var(--fw-danger);
+}
+
+.fw-textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+.fw-error {
+  font-size: 12px;
+  color: var(--fw-danger);
+}
+
+.fw-hint {
+  font-size: 12px;
+  color: var(--fw-text-muted);
+}
+
+/* --- Chips y badges ----------------------------------------------------- */
+.fw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--fw-radius-pill);
+  background: var(--fw-surface-alt);
+  border: 1px solid var(--fw-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fw-text-muted);
+  white-space: nowrap;
+}
+
+.fw-chip--primary {
+  background: var(--fw-primary-light);
+  border-color: transparent;
+  color: var(--fw-primary-dark);
+}
+
+.fw-chip--danger {
+  background: var(--fw-danger-light);
+  border-color: transparent;
+  color: var(--fw-danger);
+}
+
+.fw-chip--warning {
+  background: var(--fw-warning-light);
+  border-color: transparent;
+  color: #b45309;
+}
+
+.fw-chip--success {
+  background: var(--fw-success-light);
+  border-color: transparent;
+  color: #15803d;
+}
+
+/* --- Barra de progreso -------------------------------------------------- */
+.fw-progress {
+  height: 8px;
+  border-radius: var(--fw-radius-pill);
+  background: var(--fw-border);
+  overflow: hidden;
+}
+
+.fw-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--fw-primary);
+  transition: width 0.35s ease;
+}
+
+/* --- Listas ------------------------------------------------------------- */
+.fw-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fw-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--fw-surface);
+  border-radius: var(--fw-radius-sm);
+  box-shadow: var(--fw-shadow);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Círculo con la inicial o el icono de la categoría. */
+.fw-avatar {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  background: var(--fw-primary-light);
+  color: var(--fw-primary-dark);
+}
+
+/* --- Estados vacíos / carga --------------------------------------------- */
+.fw-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--fw-text-muted);
+}
+
+.fw-empty-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  opacity: 0.7;
+}
+
+.fw-skeleton {
+  border-radius: var(--fw-radius-sm);
+  background: linear-gradient(90deg, #eceff3 25%, #f6f8fa 50%, #eceff3 75%);
+  background-size: 200% 100%;
+  animation: fw-shimmer 1.3s infinite linear;
+}
+
+@keyframes fw-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.fw-spinner {
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: fw-spin 0.7s linear infinite;
+}
+
+.fw-spinner--dark {
+  border-color: var(--fw-border);
+  border-top-color: var(--fw-primary);
+}
+
+@keyframes fw-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Alertas ------------------------------------------------------------ */
+.fw-alert {
+  padding: 11px 14px;
+  border-radius: var(--fw-radius-sm);
+  font-size: 13.5px;
+  background: var(--fw-danger-light);
+  color: #9f1239;
+}
+
+.fw-alert--success {
+  background: var(--fw-success-light);
+  color: #15803d;
+}
+
+.fw-alert--info {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+/* --- Utilidades --------------------------------------------------------- */
+.fw-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Escritorio --------------------------------------------------------- */
+@media (min-width: 768px) {
+  body {
+    font-size: 15.5px;
+  }
+
+  .fw-page {
+    padding: 24px;
+    padding-bottom: calc(var(--fw-nav-height) + 32px);
+  }
+}

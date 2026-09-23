@@ -1,1 +1,189 @@
-<p>dashboard works!</p>
+<div class="fw-page">
+  <div class="fw-stack-lg">
+    <header class="greeting">
+      <h1 class="fw-title">Hola, {{ auth.displayName() }}</h1>
+      <p class="fw-subtitle">Tu resumen de {{ period.label() }}</p>
+    </header>
+
+    <app-month-switcher />
+
+    @if (loading()) {
+      <p class="fw-sr-only" role="status">Cargando el resumen del mes…</p>
+
+      <div class="fw-stack-lg" aria-hidden="true">
+        <section class="fw-card">
+          <div class="fw-skeleton sk sk--label"></div>
+          <div class="fw-skeleton sk sk--amount"></div>
+          <div class="fw-grid-2">
+            <div class="fw-skeleton sk sk--line"></div>
+            <div class="fw-skeleton sk sk--line"></div>
+          </div>
+        </section>
+
+        <section class="fw-card">
+          <div class="fw-skeleton sk sk--label"></div>
+          <div class="fw-skeleton sk sk--donut"></div>
+        </section>
+
+        <section class="fw-card">
+          <div class="fw-skeleton sk sk--label"></div>
+          <div class="fw-skeleton sk sk--chart"></div>
+        </section>
+
+        <div class="fw-grid-2">
+          <section class="fw-card"><div class="fw-skeleton sk sk--mini"></div></section>
+          <section class="fw-card"><div class="fw-skeleton sk sk--mini"></div></section>
+        </div>
+      </div>
+    } @else if (failed()) {
+      <section class="fw-card error">
+        <div class="fw-empty-icon">⚠️</div>
+        <p class="fw-card-title">No pudimos cargar tu resumen</p>
+        <p class="fw-subtitle">
+          Revisa tu conexión e inténtalo de nuevo. Tus datos siguen guardados.
+        </p>
+        <button type="button" class="fw-btn" (click)="reintentar()">Reintentar</button>
+      </section>
+    } @else if (summary(); as s) {
+      <!-- 1. Saldo disponible -->
+      <section class="fw-card balance">
+        <div class="balance-top">
+          <div class="balance-figure">
+            <p class="fw-label">Saldo disponible</p>
+            <p
+              class="fw-amount"
+              [class.fw-positive]="s.balance >= 0"
+              [class.fw-negative]="s.balance < 0"
+            >
+              {{ s.balance | money }}
+            </p>
+          </div>
+
+          @if (s.income > 0) {
+            <app-progress-ring
+              [value]="s.spent_percentage"
+              [size]="92"
+              label="del sueldo"
+            />
+          } @else {
+            <a class="fw-btn fw-btn--sm" routerLink="/incomes/new">
+              Registra tu sueldo
+            </a>
+          }
+        </div>
+
+        <div class="fw-grid-2 balance-split">
+          <div>
+            <p class="fw-label">Ingreso del mes</p>
+            <p class="fw-amount-sm">{{ s.income | money }}</p>
+          </div>
+          <div>
+            <p class="fw-label">Gastado</p>
+            <p class="fw-amount-sm">{{ s.total_expenses | money }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Reparto por categoría -->
+      <section class="fw-card">
+        <h2 class="fw-card-title">En qué se fue tu dinero</h2>
+
+        @if (donutData().length) {
+          <app-donut-chart
+            [data]="donutData()"
+            centerLabel="Gastado"
+            [centerValue]="s.total_expenses | money: 'compact'"
+          />
+        } @else {
+          <div class="fw-empty">
+            <div class="fw-empty-icon">🧾</div>
+            <p>Sin gastos registrados en {{ period.label() }}.</p>
+            <a class="fw-btn fw-btn--sm" routerLink="/expenses/new">
+              Registrar un gasto
+            </a>
+          </div>
+        }
+      </section>
+
+      <!-- 3. Evolución de los últimos meses -->
+      <section class="fw-card">
+        <h2 class="fw-card-title">Evolución</h2>
+        <app-bar-chart
+          [data]="trendData()"
+          primaryLabel="Gastos"
+          secondaryLabel="Ingresos"
+          [formatValue]="formatCompact"
+          emptyMessage="Aún no hay meses con movimientos para comparar."
+        />
+        <p class="fw-hint chart-hint">Toca una barra para ver su valor.</p>
+      </section>
+
+      <!-- 4. Deudas y ahorros -->
+      <div class="fw-grid-2">
+        <a class="fw-card mini" routerLink="/debts">
+          <p class="fw-label">Deudas</p>
+          <p class="fw-amount-sm">{{ s.debts.remaining_amount | money: 'compact' }}</p>
+          <div class="fw-progress">
+            <span [style.width.%]="pct(s.debts.paid_percentage)"></span>
+          </div>
+          <p class="fw-subtitle">
+            {{ s.debts.count }}
+            {{ s.debts.count === 1 ? 'deuda activa' : 'deudas activas' }}
+          </p>
+        </a>
+
+        <a class="fw-card mini" routerLink="/savings">
+          <p class="fw-label">Ahorros</p>
+          <p class="fw-amount-sm">{{ s.savings.current_amount | money: 'compact' }}</p>
+          <div class="fw-progress">
+            <span
+              class="bar-savings"
+              [style.width.%]="pct(s.savings.progress_percentage)"
+            ></span>
+          </div>
+          <p class="fw-subtitle">
+            {{ s.savings.count }} {{ s.savings.count === 1 ? 'meta' : 'metas' }}
+          </p>
+        </a>
+      </div>
+
+      <!-- 5. Mayores gastos -->
+      <section class="fw-card">
+        <h2 class="fw-card-title">Mayores gastos del mes</h2>
+
+        @if (topExpenses().length) {
+          <ul class="fw-list">
+            @for (expense of topExpenses(); track expense.id) {
+              <li class="fw-item">
+                <span class="fw-avatar" aria-hidden="true">{{ expense.icon }}</span>
+                <span class="item-text">
+                  <span class="item-title fw-truncate">{{ expense.title }}</span>
+                  <span class="fw-subtitle">{{ expense.date | fecha: 'day' }}</span>
+                </span>
+                <span class="fw-amount-sm">{{ expense.amount | money }}</span>
+              </li>
+            }
+          </ul>
+
+          <a class="see-all" routerLink="/expenses">Ver todos los gastos →</a>
+        } @else {
+          <div class="fw-empty">
+            <div class="fw-empty-icon">🪙</div>
+            <p>Ningún gasto en este periodo.</p>
+          </div>
+        }
+      </section>
+
+      <!-- 6. Consejo del mes -->
+      @if (consejo(); as tip) {
+        <p
+          class="fw-alert"
+          [class.fw-alert--info]="tip.tono === 'info'"
+          [class.fw-alert--success]="tip.tono === 'exito'"
+        >
+          {{ tip.texto }}
+        </p>
+      }
+    }
+  </div>
+</div>

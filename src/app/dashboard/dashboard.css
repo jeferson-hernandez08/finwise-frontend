@@ -1,0 +1,160 @@
+:host {
+  display: block;
+}
+
+.greeting .fw-title {
+  /* Un nombre largo no debe romper la cabecera. */
+  overflow-wrap: anywhere;
+}
+
+/* Los enlaces con aspecto de botón o de tarjeta no llevan subrayado. */
+a.fw-btn,
+a.mini,
+.see-all {
+  text-decoration: none;
+}
+
+/* Los botones pequeños de esta pantalla son llamadas a la acción: se suben
+   al mínimo táctil recomendado de 44px. */
+.fw-btn--sm {
+  min-height: 44px;
+}
+
+.fw-empty .fw-btn {
+  margin-top: 12px;
+}
+
+/* --- Saldo disponible ---------------------------------------------------- */
+.balance-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.balance-figure {
+  min-width: 0;
+}
+
+.balance-split {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--fw-border);
+}
+
+.balance-split .fw-label {
+  margin-bottom: 2px;
+}
+
+/* --- Tarjetas de deudas y ahorros ---------------------------------------- */
+.mini {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: inherit;
+  /* Toda la tarjeta es el área táctil del enlace. */
+  min-height: 108px;
+}
+
+.mini .fw-progress {
+  margin-top: 2px;
+}
+
+.bar-savings {
+  background: var(--fw-success);
+}
+
+/* --- Mayores gastos ------------------------------------------------------ */
+.fw-list .fw-item {
+  /* Dentro de una tarjeta la sombra sobra: basta con un fondo distinto. */
+  box-shadow: none;
+  background: var(--fw-surface-alt);
+}
+
+.item-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.item-title {
+  font-weight: 600;
+}
+
+.see-all {
+  display: inline-block;
+  margin-top: 8px;
+  /* El relleno lleva el enlace a una altura cómoda para el dedo. */
+  padding: 10px 2px;
+  color: var(--fw-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.chart-hint {
+  margin: 8px 0 0;
+  text-align: center;
+}
+
+/* --- Error --------------------------------------------------------------- */
+.error {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 16px;
+}
+
+.error .fw-btn {
+  margin-top: 8px;
+  min-width: 160px;
+}
+
+/* --- Esqueletos ---------------------------------------------------------- */
+.sk {
+  height: 14px;
+  margin-bottom: 12px;
+}
+
+.sk--label {
+  width: 45%;
+  height: 12px;
+}
+
+.sk--amount {
+  width: 65%;
+  height: 30px;
+}
+
+.sk--line {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.sk--donut {
+  height: 190px;
+  margin-bottom: 0;
+}
+
+.sk--chart {
+  height: 150px;
+  margin-bottom: 0;
+}
+
+.sk--mini {
+  height: 76px;
+  margin-bottom: 0;
+}
+
+/* --- Escritorio ---------------------------------------------------------- */
+@media (min-width: 768px) {
+  .balance-top {
+    gap: 24px;
+  }
+
+  .mini {
+    min-height: 124px;
+  }
+}

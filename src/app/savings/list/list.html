@@ -1,1 +1,136 @@
-<p>list works!</p>
+<section class="fw-page fw-stack-lg">
+  <header class="fw-row-between">
+    <h1 class="fw-title">Mis metas</h1>
+    @if (!loading() && !failed() && activeCount() > 0) {
+      <span class="fw-chip">{{ activeCount() }} en curso</span>
+    }
+  </header>
+
+  @if (loading()) {
+    <div class="fw-stack" aria-hidden="true">
+      <div class="fw-skeleton skeleton skeleton--summary"></div>
+      @for (item of skeletons; track item) {
+        <div class="fw-skeleton skeleton skeleton--card"></div>
+      }
+    </div>
+    <p class="fw-sr-only">Cargando tus metas de ahorro…</p>
+  } @else if (failed()) {
+    <div class="fw-card fw-stack">
+      <p class="fw-alert">No pudimos cargar tus metas de ahorro.</p>
+      <button type="button" class="fw-btn fw-btn--ghost" (click)="load()">
+        Reintentar
+      </button>
+    </div>
+  } @else if (rows().length === 0) {
+    <div class="fw-card fw-empty">
+      <div class="fw-empty-icon" aria-hidden="true">🐷</div>
+      <p class="fw-card-title">Todavía no tienes metas de ahorro</p>
+      <p>
+        Una meta le pone nombre y fecha a lo que quieres lograr: una moto, un
+        viaje o un colchón para imprevistos. Cada aporte que registres se suma
+        y verás cuánto te falta para conseguirlo.
+      </p>
+      <button type="button" class="fw-btn empty-action" routerLink="/savings/new">
+        Crear mi primera meta
+      </button>
+    </div>
+  } @else {
+    <!-- Acumulado entre todas las metas -->
+    <article class="fw-card summary">
+      <p class="fw-label">Total ahorrado</p>
+      <p class="fw-amount fw-positive summary__amount">{{ totalSaved() | money }}</p>
+      <p class="fw-muted summary__of">
+        de {{ totalTarget() | money }} entre todas tus metas
+      </p>
+
+      <div class="fw-progress summary__bar">
+        <span class="is-positive" [style.width.%]="totalPercentage()"></span>
+      </div>
+      <p class="fw-subtitle summary__caption">
+        Llevas el {{ totalPercentage() }}% de lo que te propusiste
+      </p>
+    </article>
+
+    <ul class="fw-list goal-list">
+      @for (row of rows(); track row.goal._id) {
+        <li class="fw-card goal" [class.goal--done]="row.completed">
+          <a class="goal__body" [routerLink]="['/savings/detail', row.goal._id]">
+            <div class="goal__head">
+              <span class="fw-avatar goal__emoji" aria-hidden="true">
+                {{ row.emoji }}
+              </span>
+              <h2 class="goal__name fw-truncate">{{ row.goal.name }}</h2>
+              <span
+                class="fw-chip"
+                [class.fw-chip--success]="row.completed"
+                [class.fw-chip--primary]="!row.completed"
+              >
+                {{ row.percentage }}%
+              </span>
+            </div>
+
+            <p class="fw-amount-sm fw-positive goal__amount">
+              {{ row.goal.current_amount | money }}
+            </p>
+            <p class="fw-muted goal__of">de {{ row.goal.target_amount | money }}</p>
+
+            <div class="fw-progress goal__bar">
+              <span
+                [style.width.%]="row.percentage"
+                [class.is-done]="row.completed"
+              ></span>
+            </div>
+
+            @if (row.completed) {
+              <p class="fw-positive goal__congrats">
+                🎉 ¡Lo lograste! Ya reuniste todo lo que te propusiste.
+              </p>
+            } @else {
+              <p class="fw-muted goal__left">
+                Te faltan {{ row.remaining | money }}
+              </p>
+              @if (row.monthlyTarget) {
+                <p class="fw-subtitle goal__plan">
+                  Aporta {{ row.monthlyTarget | money }} al mes para lograrlo
+                </p>
+              }
+            }
+
+            @if (row.completed || row.daysLeft !== null) {
+              <div class="goal__foot">
+                @if (row.completed) {
+                  <span class="fw-chip fw-chip--success">Meta cumplida</span>
+                } @else if (row.expired) {
+                  <span class="fw-chip fw-chip--danger">Plazo vencido</span>
+                } @else {
+                  <span class="fw-chip">{{ deadlineLabel(row) }}</span>
+                }
+              </div>
+            }
+          </a>
+
+          @if (!row.completed) {
+            <div class="goal__actions">
+              <button
+                type="button"
+                class="fw-btn fw-btn--sm"
+                (click)="goToContribution(row.goal)"
+              >
+                Aportar
+              </button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+
+    <button
+      type="button"
+      class="fw-fab"
+      routerLink="/savings/new"
+      aria-label="Crear meta de ahorro"
+    >
+      +
+    </button>
+  }
+</section>

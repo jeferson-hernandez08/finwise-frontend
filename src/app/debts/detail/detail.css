@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+p {
+  margin: 0;
+}
+
+a.fw-btn {
+  text-decoration: none;
+}
+
+/* --- Carga --------------------------------------------------------------- */
+.skeleton--hero {
+  height: 260px;
+}
+
+.skeleton--block {
+  height: 180px;
+}
+
+.skeleton--row {
+  height: 56px;
+}
+
+/* --- Cabecera de la deuda ------------------------------------------------ */
+.hero__head {
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.hero__label {
+  margin-bottom: 2px;
+}
+
+.hero__bar {
+  margin: 12px 0 8px;
+}
+
+.hero__bar > span.is-done {
+  background: var(--fw-success);
+}
+
+/* --- Datos --------------------------------------------------------------- */
+.data {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 12px;
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--fw-border);
+}
+
+.data__item {
+  min-width: 0;
+}
+
+.data__item--wide {
+  grid-column: 1 / -1;
+}
+
+.data dt {
+  margin-bottom: 2px;
+}
+
+.data dd {
+  margin: 0;
+}
+
+/* --- Felicitación -------------------------------------------------------- */
+.congrats {
+  text-align: center;
+  padding: 18px 16px;
+}
+
+.congrats__title {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.congrats__text {
+  font-size: 13.5px;
+}
+
+/* --- Historial ----------------------------------------------------------- */
+.history__head {
+  align-items: baseline;
+}
+
+.history__title {
+  margin-bottom: 12px;
+}
+
+.payment {
+  box-shadow: none;
+  border: 1px solid var(--fw-border);
+}
+
+.payment__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.payment__date {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment__note {
+  font-size: 12.5px;
+}
+
+.payment__delete {
+  flex: 0 0 auto;
+  /* 44px de área táctil aunque el icono sea pequeño. */
+  width: 44px;
+  height: 44px;
+  margin-right: -8px;
+  border: none;
+  background: transparent;
+  color: var(--fw-text-faint);
+  font-size: 16px;
+  line-height: 1;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.payment__delete:hover {
+  background: var(--fw-danger-light);
+  color: var(--fw-danger);
+}
+
+.empty-action {
+  margin-top: 16px;
+}
+
+/* --- Escritorio ---------------------------------------------------------- */
+@media (min-width: 768px) {
+  .data {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .data__item--wide {
+    grid-column: auto;
+  }
+}

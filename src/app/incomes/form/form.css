@@ -1,0 +1,119 @@
+:host {
+  display: block;
+}
+
+p {
+  margin: 0;
+}
+
+/* --- Cabecera ------------------------------------------------------------ */
+.back {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: var(--fw-surface);
+  box-shadow: var(--fw-shadow);
+  color: var(--fw-text);
+  font-size: 26px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+/* --- Campo del monto ----------------------------------------------------- */
+.amount-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-sm);
+  background: var(--fw-surface);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.amount-box:focus-within {
+  border-color: var(--fw-primary);
+  box-shadow: 0 0 0 3px var(--fw-primary-light);
+}
+
+.amount-box.is-invalid {
+  border-color: var(--fw-danger);
+}
+
+.currency {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fw-text-muted);
+}
+
+.amount-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--fw-text);
+  /* Grande y prominente, y con 16px+ iOS no hace zoom al enfocar. */
+  font-size: 30px;
+  font-weight: 800;
+  font-family: inherit;
+  letter-spacing: -0.02em;
+}
+
+.amount-input::placeholder {
+  color: var(--fw-text-faint);
+  font-weight: 700;
+}
+
+/* --- Aviso de mes ya registrado ------------------------------------------ */
+.dup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.dup-link {
+  background: var(--fw-surface);
+  color: #9f1239;
+}
+
+.dup-link:hover {
+  background: #fff1f2;
+}
+
+/* --- Zona de eliminación ------------------------------------------------- */
+.danger-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--fw-border);
+}
+
+.danger-zone .fw-hint {
+  text-align: center;
+}
+
+/* --- Carga --------------------------------------------------------------- */
+.sk-amount {
+  height: 66px;
+}
+
+.sk-field {
+  height: 46px;
+}
+
+/* --- Escritorio ---------------------------------------------------------- */
+@media (min-width: 768px) {
+  .amount-input {
+    font-size: 34px;
+  }
+}

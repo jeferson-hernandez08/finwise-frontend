@@ -1,1 +1,19 @@
-<p>google-callback works!</p>
+<div class="fw-page fw-page--plain">
+  <div class="callback-box">
+    @if (errorText()) {
+      <div class="fw-card fw-stack" role="alert">
+        <div class="fw-empty-icon" aria-hidden="true">⚠️</div>
+        <h1 class="fw-title">No pudimos conectarte</h1>
+        <p class="fw-subtitle">{{ errorText() }}</p>
+        <button type="button" class="fw-btn fw-btn--block" (click)="backToLogin()">
+          Volver a iniciar sesión
+        </button>
+      </div>
+    } @else {
+      <div class="loading" role="status" aria-live="polite">
+        <span class="fw-spinner fw-spinner--dark" aria-hidden="true"></span>
+        <p class="fw-subtitle">Conectando tu cuenta de Google…</p>
+      </div>
+    }
+  </div>
+</div>

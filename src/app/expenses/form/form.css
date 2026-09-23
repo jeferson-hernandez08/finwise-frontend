@@ -1,0 +1,193 @@
+/* ---- Cabecera ----------------------------------------------------------- */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.back {
+  width: 44px;
+  height: 44px;
+  margin-left: -10px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fw-text);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.back:active {
+  background: var(--fw-surface-alt);
+}
+
+/* ---- Monto -------------------------------------------------------------- */
+.amount-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.amount-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid var(--fw-border);
+  padding-bottom: 4px;
+}
+
+.amount-row:focus-within {
+  border-bottom-color: var(--fw-primary);
+}
+
+.amount-row.is-invalid {
+  border-bottom-color: var(--fw-danger);
+}
+
+.amount-currency {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--fw-text-muted);
+}
+
+.amount-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  border: none;
+  background: transparent;
+  color: var(--fw-text);
+  font-family: inherit;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.amount-input:focus {
+  outline: none;
+}
+
+/* Oculta las flechas del input numérico: estorban en un campo tan grande. */
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.amount-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ---- Categorías --------------------------------------------------------- */
+/*
+ * Una rejilla de botones no se puede rotular con <label>, así que se replica
+ * el aspecto de `.fw-field > label` para que no desentone con los demás campos.
+ */
+.group-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fw-text);
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 76px;
+  padding: 8px 4px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-sm);
+  background: var(--fw-surface);
+  color: var(--fw-text-muted);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.cat.is-selected {
+  border-color: var(--fw-primary);
+  background: var(--fw-primary-light);
+  color: var(--fw-primary-dark);
+  font-weight: 700;
+}
+
+.cat-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.cat-name {
+  font-size: 11.5px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.skeleton-cat {
+  height: 76px;
+}
+
+.skeleton-amount {
+  height: 96px;
+}
+
+.skeleton-block {
+  height: 168px;
+}
+
+.skeleton-row {
+  height: 70px;
+}
+
+/* ---- Pago de deuda ------------------------------------------------------ */
+.debt-card {
+  gap: 10px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Área táctil cómoda para toda la fila, no solo la casilla. */
+  min-height: 44px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--fw-primary);
+  cursor: pointer;
+}
+
+/* ---- Acciones ----------------------------------------------------------- */
+.actions {
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* ---- Escritorio --------------------------------------------------------- */
+@media (min-width: 768px) {
+  .cat-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .amount-input {
+    font-size: 36px;
+  }
+}

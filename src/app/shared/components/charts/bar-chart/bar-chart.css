@@ -1,0 +1,88 @@
+:host {
+  display: block;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Evita que el navegador interprete el toque como desplazamiento. */
+  touch-action: manipulation;
+}
+
+.axis {
+  stroke: var(--fw-border);
+  stroke-width: 1.5;
+}
+
+/* La guía del máximo es una referencia, no un dato: se mantiene discreta. */
+.guide {
+  stroke: var(--fw-border);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.guide-label {
+  fill: var(--fw-text-faint);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.bar {
+  transition: opacity 0.18s ease;
+}
+
+.bar.is-dim {
+  opacity: 0.32;
+}
+
+.x-label {
+  fill: var(--fw-text-muted);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+.hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.hit:focus-visible {
+  outline: 2px solid var(--fw-primary);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
+/* El valor resaltado se escribe en tinta con halo: legible sobre cualquier barra. */
+.callout {
+  fill: var(--fw-text);
+  font-size: 10.5px;
+  font-weight: 700;
+  stroke: var(--fw-surface);
+  stroke-width: 3;
+  paint-order: stroke;
+  pointer-events: none;
+}
+
+.legend {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 12.5px;
+  color: var(--fw-text-muted);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}

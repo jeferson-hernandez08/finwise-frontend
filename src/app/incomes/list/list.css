@@ -1,0 +1,168 @@
+:host {
+  display: block;
+}
+
+p {
+  margin: 0;
+}
+
+/* --- Tarjeta destacada del periodo -------------------------------------- */
+.highlight {
+  text-align: center;
+  padding: 6px 0 2px;
+}
+
+.highlight .fw-label {
+  margin-bottom: 4px;
+}
+
+.amount-big {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fw-success);
+  /* Un monto nunca debe partirse en dos líneas. */
+  white-space: nowrap;
+}
+
+.empty-inline {
+  text-align: center;
+  padding: 10px 0 2px;
+}
+
+.empty-inline p + p {
+  margin-top: 6px;
+}
+
+/* --- Tarjetas de resumen ------------------------------------------------- */
+.stat p + p {
+  margin-top: 3px;
+}
+
+.stat-note {
+  font-size: 12px;
+}
+
+/* --- Historial ----------------------------------------------------------- */
+.history-title {
+  margin-bottom: 0;
+}
+
+.year-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 4px 0;
+}
+
+/* La fila lleva el padding dentro del enlace para que toda su área sea táctil. */
+.row {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.row-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 56px;
+  padding: 10px 4px 10px 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.month-avatar {
+  width: 38px;
+  height: 38px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.row-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.row-month {
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 100%;
+}
+
+.chip-change {
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+/* 44px de lado: área táctil mínima cómoda en móvil. */
+.row-delete {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  align-self: stretch;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--fw-text-faint);
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.row-delete:hover:not(:disabled) {
+  background: var(--fw-danger-light);
+  color: var(--fw-danger);
+}
+
+.row-delete:disabled {
+  cursor: progress;
+}
+
+/* --- Estado vacío general ------------------------------------------------ */
+.empty-lead {
+  font-weight: 600;
+  color: var(--fw-text);
+}
+
+.fw-empty p + p {
+  margin-top: 6px;
+}
+
+/* --- Carga --------------------------------------------------------------- */
+.sk-amount {
+  height: 44px;
+}
+
+.sk-button {
+  height: 46px;
+}
+
+.sk-row {
+  height: 60px;
+}
+
+/* --- Escritorio ---------------------------------------------------------- */
+@media (min-width: 768px) {
+  .amount-big {
+    font-size: 38px;
+  }
+
+  .row-main {
+    padding: 12px 4px 12px 14px;
+  }
+
+  .row:hover {
+    background: var(--fw-surface-alt);
+  }
+}
