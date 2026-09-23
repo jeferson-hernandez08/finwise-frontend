@@ -1,11 +1,22 @@
 import { Routes } from '@angular/router';
-import { Login } from './login/login';
-import { Register } from './register/register';
-import { GoogleCallback } from './google-callback/google-callback';
 
+/** Cada pantalla se carga en su propio chunk: el login no arrastra al registro. */
 export const authRoutes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
-  { path: 'callback', component: GoogleCallback },
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  {
+    path: 'login',
+    title: 'Iniciar sesión | FinWise',
+    loadComponent: () => import('./login/login').then(m => m.Login),
+  },
+  {
+    path: 'register',
+    title: 'Crear cuenta | FinWise',
+    loadComponent: () => import('./register/register').then(m => m.Register),
+  },
+  {
+    path: 'callback',
+    title: 'Conectando con Google | FinWise',
+    loadComponent: () =>
+      import('./google-callback/google-callback').then(m => m.GoogleCallback),
+  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];

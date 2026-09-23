@@ -1,0 +1,176 @@
+/* ---- Carga -------------------------------------------------------------- */
+.skeleton {
+  border-radius: var(--fw-radius);
+}
+
+.skeleton--head {
+  height: 210px;
+}
+
+.skeleton--form {
+  height: 280px;
+}
+
+.skeleton--row {
+  height: 48px;
+  border-radius: var(--fw-radius-sm);
+}
+
+/* ---- Cabecera de la meta ------------------------------------------------ */
+.head--done {
+  border: 1px solid var(--fw-success-light);
+}
+
+.head__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Emoji grande: es lo que identifica la meta de un vistazo. */
+.head__emoji {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--fw-primary-light);
+  font-size: 28px;
+}
+
+.head--done .head__emoji {
+  background: var(--fw-success-light);
+}
+
+.head__text {
+  min-width: 0;
+}
+
+.head__name {
+  font-size: 20px;
+  /* Un nombre largo baja de línea en lugar de desbordar la tarjeta. */
+  overflow-wrap: anywhere;
+}
+
+.head__meta {
+  margin: 2px 0 0;
+}
+
+.head__amount {
+  margin: 18px 0 0;
+}
+
+.head__of {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.head__bar {
+  height: 12px;
+  margin-top: 14px;
+}
+
+.head__bar > span.is-done {
+  background: var(--fw-success);
+}
+
+.head__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.head__plan {
+  margin: 10px 0 0;
+}
+
+/* ---- Formulario de aporte ----------------------------------------------- */
+.empty-action {
+  margin-top: 16px;
+}
+
+/* ---- Historial ---------------------------------------------------------- */
+.history {
+  gap: 0;
+}
+
+.history__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--fw-border);
+  transition: opacity 0.15s ease;
+}
+
+.history__item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.history__item.is-deleting {
+  opacity: 0.5;
+}
+
+.history__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.history__date {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.history__note {
+  font-size: 12.5px;
+}
+
+.history__delete {
+  flex: 0 0 auto;
+  /* 44px de área táctil, el mínimo cómodo en móvil. */
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fw-text-faint);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.history__delete:hover:not(:disabled) {
+  background: var(--fw-danger-light);
+  color: var(--fw-danger);
+}
+
+.history__delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.history__empty {
+  padding: 24px 8px;
+}
+
+/* ---- Acciones ----------------------------------------------------------- */
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* ---- Escritorio --------------------------------------------------------- */
+@media (min-width: 768px) {
+  .head__name {
+    font-size: 22px;
+  }
+}

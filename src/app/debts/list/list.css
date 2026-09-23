@@ -1,0 +1,118 @@
+:host {
+  display: block;
+}
+
+p {
+  margin: 0;
+}
+
+/* --- Carga --------------------------------------------------------------- */
+.skeleton--summary {
+  height: 150px;
+}
+
+.skeleton--card {
+  height: 176px;
+}
+
+/* --- Resumen ------------------------------------------------------------- */
+.summary__amount {
+  margin-top: 4px;
+}
+
+.summary__original {
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.summary__bar {
+  margin-bottom: 8px;
+}
+
+.summary__caption {
+  font-weight: 600;
+}
+
+/* --- Tarjeta de deuda ---------------------------------------------------- */
+.debt-list {
+  gap: 12px;
+}
+
+.debt-card {
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Una deuda saldada sigue visible, pero deja de competir por la atención. */
+.debt-card--paid {
+  opacity: 0.62;
+}
+
+.debt-card__body {
+  display: block;
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.debt-card__head {
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.debt-card__name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.debt-card__amount {
+  /* Algo menor que el .fw-amount global: aquí conviven varias tarjetas. */
+  font-size: 24px;
+}
+
+.debt-card__of {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.debt-card__bar {
+  margin-bottom: 6px;
+}
+
+.debt-card__bar > span.is-done {
+  background: var(--fw-success);
+}
+
+.debt-card__percent {
+  font-size: 12px;
+}
+
+.debt-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.debt-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 14px;
+}
+
+.debt-card__pay {
+  /* Área táctil cómoda aunque sea un botón secundario. */
+  min-height: 44px;
+  padding: 0 22px;
+}
+
+.empty-action {
+  margin-top: 16px;
+}
+
+/* --- Escritorio ---------------------------------------------------------- */
+@media (min-width: 768px) {
+  .debt-card__amount {
+    font-size: 26px;
+  }
+}

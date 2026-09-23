@@ -1,1 +1,129 @@
-<p>list works!</p>
+<section class="fw-page fw-stack-lg">
+  <header>
+    <h1 class="fw-title">Ingresos</h1>
+    <p class="fw-subtitle">El sueldo que recibes cada mes</p>
+  </header>
+
+  <!-- Ingreso del mes seleccionado en la cabecera -->
+  <article class="fw-card fw-stack">
+    <app-month-switcher />
+
+    @if (loading()) {
+      <div class="fw-skeleton sk-amount"></div>
+      <div class="fw-skeleton sk-button"></div>
+    } @else {
+      @if (currentIncome(); as income) {
+        <div class="highlight">
+          <p class="fw-label">Ingreso de {{ period.label() }}</p>
+          <p class="amount-big">{{ income.amount | money }}</p>
+        </div>
+        <a class="fw-btn fw-btn--ghost fw-btn--block" [routerLink]="['/incomes/edit', income._id]">
+          Editar
+        </a>
+      } @else {
+        <div class="empty-inline">
+          <p class="fw-label">Ingreso de {{ period.label() }}</p>
+          <p class="fw-muted">Todavía no has registrado el sueldo de este mes.</p>
+        </div>
+        <a class="fw-btn fw-btn--block" routerLink="/incomes/new">
+          Registrar ingreso de {{ monthName() }}
+        </a>
+      }
+    }
+  </article>
+
+  <!-- Resumen calculado con todo el historial -->
+  @if (!loading() && incomes().length) {
+    <div class="fw-grid-2">
+      <article class="fw-card fw-card--tight stat">
+        <p class="fw-label">Promedio mensual</p>
+        <p class="fw-amount-sm">{{ average() | money }}</p>
+        <p class="fw-faint stat-note">
+          {{ incomes().length }} {{ incomes().length === 1 ? 'mes registrado' : 'meses registrados' }}
+        </p>
+      </article>
+
+      <article class="fw-card fw-card--tight stat">
+        <p class="fw-label">Total del año {{ period.year() }}</p>
+        <p class="fw-amount-sm">{{ yearTotal() | money }}</p>
+        <p class="fw-faint stat-note">
+          {{ yearCount() }} de 12 meses
+        </p>
+      </article>
+    </div>
+  }
+
+  <!-- Historial completo -->
+  <section class="fw-stack">
+    @if (loading() || incomes().length) {
+      <h2 class="fw-card-title history-title">Historial</h2>
+    }
+
+    @if (loading()) {
+      @for (item of skeletons; track item) {
+        <div class="fw-skeleton sk-row"></div>
+      }
+    } @else {
+      @for (group of groups(); track group.year) {
+        <div class="year-head">
+          <span class="fw-label">{{ group.year }}</span>
+          <span class="fw-faint">{{ group.total | money: 'compact' }}</span>
+        </div>
+
+        <ul class="fw-list">
+          @for (row of group.rows; track row.income._id) {
+            <li class="fw-item row">
+              <a class="row-main" [routerLink]="['/incomes/edit', row.income._id]">
+                <span class="fw-avatar month-avatar">{{ row.monthShort }}</span>
+
+                <span class="row-text">
+                  <span class="row-month fw-truncate">{{ row.monthName }}</span>
+                  @if (row.changeLabel) {
+                    <span
+                      class="fw-chip chip-change"
+                      [class.fw-chip--success]="row.changeTone === 'up'"
+                      [class.fw-chip--danger]="row.changeTone === 'down'"
+                      [attr.title]="row.changeTitle"
+                    >
+                      {{ row.changeLabel }}
+                    </span>
+                  }
+                </span>
+
+                <span class="fw-amount-sm">{{ row.income.amount | money }}</span>
+              </a>
+
+              <button
+                type="button"
+                class="row-delete"
+                (click)="remove(row)"
+                [disabled]="deletingId() === row.income._id"
+                [attr.aria-label]="'Eliminar ingreso de ' + row.monthName + ' ' + row.income.year"
+              >
+                @if (deletingId() === row.income._id) {
+                  <span class="fw-spinner fw-spinner--dark"></span>
+                } @else {
+                  ✕
+                }
+              </button>
+            </li>
+          }
+        </ul>
+      } @empty {
+        <div class="fw-card fw-empty">
+          <div class="fw-empty-icon">💵</div>
+          <p class="empty-lead">Aún no has registrado ningún ingreso.</p>
+          <p class="fw-faint">
+            Anota tu sueldo de cada mes para saber cuánto te queda después de los gastos
+            y cuánto puedes destinar a deudas y ahorros. Empieza por el mes que estás
+            viendo arriba.
+          </p>
+        </div>
+      }
+    }
+  </section>
+</section>
+
+@if (!loading() && incomes().length) {
+  <a class="fw-fab" routerLink="/incomes/new" aria-label="Registrar ingreso de otro mes">+</a>
+}

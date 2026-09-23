@@ -1,0 +1,202 @@
+/* ---- Resumen ------------------------------------------------------------ */
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-filtered {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--fw-border);
+}
+
+.skeleton-amount {
+  width: 60%;
+  height: 34px;
+  margin: 4px 0;
+}
+
+.skeleton-item {
+  height: 64px;
+}
+
+/* ---- Filtros ------------------------------------------------------------ */
+.filters {
+  gap: 10px;
+}
+
+/* Fila de chips desplazable: en móvil no caben todas las categorías. */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 0;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.chip-count {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.65;
+}
+
+.search {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: 36px;
+}
+
+/* ---- Grupos por día ----------------------------------------------------- */
+.day-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.day-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fw-text-muted);
+  text-transform: capitalize;
+}
+
+.day-total {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fw-text-muted);
+  white-space: nowrap;
+}
+
+/* ---- Item de gasto ------------------------------------------------------ */
+.item {
+  /* El padding lo pone el botón interno para que toda el área sea táctil. */
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  transition: opacity 0.15s ease;
+}
+
+.item.is-deleting {
+  opacity: 0.5;
+}
+
+.item-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 64px;
+  padding: 10px 4px 10px 14px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item-main:active {
+  background: var(--fw-surface-alt);
+}
+
+.item-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.item-title {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.item-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--fw-text-muted);
+}
+
+.item-sub .fw-chip {
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  font-size: 10.5px;
+}
+
+.item-amount {
+  flex: 0 0 auto;
+  padding-left: 4px;
+}
+
+.item-delete {
+  flex: 0 0 auto;
+  width: 44px;
+  align-self: stretch;
+  border: none;
+  border-left: 1px solid var(--fw-border);
+  background: transparent;
+  color: var(--fw-text-faint);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.item-delete:hover:not(:disabled) {
+  background: var(--fw-danger-light);
+  color: var(--fw-danger);
+}
+
+.item-delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.fw-empty .fw-btn {
+  margin-top: 12px;
+}
+
+/* ---- Escritorio --------------------------------------------------------- */
+@media (min-width: 768px) {
+  .item-title {
+    font-size: 15px;
+  }
+
+  .item-main {
+    padding-left: 16px;
+  }
+}

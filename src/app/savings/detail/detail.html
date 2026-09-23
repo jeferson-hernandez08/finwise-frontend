@@ -1,0 +1,211 @@
+<section class="fw-page fw-stack-lg">
+  @if (loading() && !goal()) {
+    <div class="fw-stack" aria-hidden="true">
+      <div class="fw-skeleton skeleton skeleton--head"></div>
+      <div class="fw-skeleton skeleton skeleton--form"></div>
+    </div>
+    <p class="fw-sr-only">Cargando la meta…</p>
+  } @else if (notFound()) {
+    <div class="fw-card fw-stack">
+      <p class="fw-alert">{{ notFound() }}</p>
+      <button type="button" class="fw-btn fw-btn--ghost" routerLink="/savings">
+        Volver a mis metas
+      </button>
+    </div>
+  } @else if (view(); as row) {
+    <!-- Cabecera con el progreso de la meta -->
+    <article class="fw-card head" [class.head--done]="row.completed">
+      <div class="head__top">
+        <span class="head__emoji" aria-hidden="true">{{ row.emoji }}</span>
+        <div class="head__text">
+          <h1 class="fw-title head__name">{{ row.goal.name }}</h1>
+          <p class="fw-subtitle head__meta">
+            @if (row.goal.deadline) {
+              Fecha límite: {{ row.goal.deadline | fecha:'long' }}
+            } @else {
+              Sin fecha límite
+            }
+          </p>
+        </div>
+      </div>
+
+      <p class="fw-amount fw-positive head__amount">
+        {{ row.goal.current_amount | money }}
+      </p>
+      <p class="fw-muted head__of">de {{ row.goal.target_amount | money }}</p>
+
+      <div class="fw-progress head__bar">
+        <span [style.width.%]="row.percentage" [class.is-done]="row.completed"></span>
+      </div>
+
+      <div class="head__foot">
+        <span
+          class="fw-chip"
+          [class.fw-chip--success]="row.completed"
+          [class.fw-chip--primary]="!row.completed"
+        >
+          {{ row.percentage }}%
+        </span>
+
+        @if (row.completed) {
+          <span class="fw-chip fw-chip--success">Meta cumplida</span>
+        } @else {
+          <span class="fw-chip">Te faltan {{ row.remaining | money }}</span>
+          @if (row.expired) {
+            <span class="fw-chip fw-chip--danger">Plazo vencido</span>
+          } @else if (row.daysLeft !== null) {
+            <span class="fw-chip">{{ plazo() }}</span>
+          }
+        }
+      </div>
+
+      @if (!row.completed && row.monthlyTarget) {
+        <p class="fw-subtitle head__plan">
+          Aporta {{ row.monthlyTarget | money }} al mes para lograrlo a tiempo
+        </p>
+      }
+    </article>
+
+    <!-- Registrar aporte -->
+    @if (row.completed) {
+      <div class="fw-card fw-empty">
+        <div class="fw-empty-icon" aria-hidden="true">🎉</div>
+        <p class="fw-card-title">¡Felicitaciones, cumpliste tu meta!</p>
+        <p>
+          Reuniste los {{ row.goal.target_amount | money }} que te propusiste.
+          Ya no puedes registrar más aportes aquí: crea otra meta para tu
+          siguiente objetivo.
+        </p>
+        <button type="button" class="fw-btn empty-action" routerLink="/savings/new">
+          Crear otra meta
+        </button>
+      </div>
+    } @else {
+      <article class="fw-card">
+        <h2 class="fw-card-title">Registrar aporte</h2>
+
+        <form class="fw-stack" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="fw-field">
+            <label for="monto">Monto del aporte</label>
+            <input
+              #amountInput
+              id="monto"
+              type="number"
+              inputmode="numeric"
+              class="fw-input"
+              placeholder="0"
+              min="1"
+              [class.is-invalid]="invalid(amount)"
+              formControlName="amount"
+            />
+            @if (invalid(amount)) {
+              <p class="fw-error">{{ amountError() }}</p>
+            } @else {
+              <p class="fw-hint">
+                Puedes aportar hasta {{ row.remaining | money }} para completar la meta.
+              </p>
+            }
+          </div>
+
+          <div class="fw-field">
+            <label for="fecha">Fecha</label>
+            <input
+              id="fecha"
+              type="date"
+              class="fw-input"
+              [class.is-invalid]="invalid(date)"
+              formControlName="date"
+            />
+            @if (invalid(date)) {
+              <p class="fw-error">Elige la fecha del aporte</p>
+            }
+          </div>
+
+          <div class="fw-field">
+            <label for="nota">Nota (opcional)</label>
+            <input
+              id="nota"
+              type="text"
+              class="fw-input"
+              placeholder="Ej. prima de junio"
+              maxlength="120"
+              formControlName="note"
+            />
+          </div>
+
+          <button type="submit" class="fw-btn fw-btn--block" [disabled]="saving()">
+            @if (saving()) {
+              <span class="fw-spinner" aria-hidden="true"></span>
+              Guardando…
+            } @else {
+              Guardar aporte
+            }
+          </button>
+        </form>
+      </article>
+    }
+
+    <!-- Historial de aportes -->
+    <article class="fw-card">
+      <h2 class="fw-card-title">Historial de aportes</h2>
+
+      @if (loadingContributions()) {
+        <div class="fw-stack" aria-hidden="true">
+          @for (item of skeletons; track item) {
+            <div class="fw-skeleton skeleton skeleton--row"></div>
+          }
+        </div>
+        <p class="fw-sr-only">Cargando los aportes…</p>
+      } @else {
+        <ul class="fw-list history">
+          @for (item of contributions(); track item._id) {
+            <li
+              class="history__item"
+              [class.is-deleting]="deletingId() === item._id"
+            >
+              <div class="history__text">
+                <span class="history__date">{{ item.date | fecha }}</span>
+                @if (item.note) {
+                  <span class="fw-muted history__note fw-truncate">{{ item.note }}</span>
+                }
+              </div>
+
+              <span class="fw-amount-sm fw-positive">+{{ item.amount | money }}</span>
+
+              <button
+                type="button"
+                class="history__delete"
+                [disabled]="deletingId() === item._id"
+                (click)="removeContribution(item)"
+                [attr.aria-label]="'Eliminar el aporte del ' + (item.date | fecha)"
+              >
+                ✕
+              </button>
+            </li>
+          } @empty {
+            <li class="fw-empty history__empty">
+              <div class="fw-empty-icon" aria-hidden="true">💸</div>
+              <p>
+                Aún no registras aportes a esta meta. El primero puede ser
+                pequeño: lo importante es empezar.
+              </p>
+            </li>
+          }
+        </ul>
+      }
+    </article>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="fw-btn fw-btn--ghost"
+        [routerLink]="['/savings/edit', row.goal._id]"
+      >
+        Editar meta
+      </button>
+      <button type="button" class="fw-btn fw-btn--ghost" (click)="back()">
+        Volver
+      </button>
+    </div>
+  }
+</section>

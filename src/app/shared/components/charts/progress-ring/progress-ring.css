@@ -1,0 +1,37 @@
+:host {
+  display: inline-block;
+  line-height: 0;
+}
+
+.ring {
+  display: block;
+}
+
+.track,
+.value {
+  fill: none;
+  stroke-width: 9;
+}
+
+.track {
+  stroke: var(--fw-border);
+}
+
+.value {
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.4s ease, stroke 0.2s ease;
+}
+
+.percent {
+  fill: var(--fw-text);
+  font-size: 22px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+.caption {
+  fill: var(--fw-text-muted);
+  font-size: 9.5px;
+  font-weight: 600;
+  text-anchor: middle;
+}

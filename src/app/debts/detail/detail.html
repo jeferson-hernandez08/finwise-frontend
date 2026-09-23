@@ -1,0 +1,233 @@
+<section class="fw-page fw-stack-lg">
+  <header class="fw-row-between">
+    <a class="fw-btn fw-btn--ghost fw-btn--sm" routerLink="/debts">‹ Volver</a>
+    @if (debt(); as d) {
+      <a class="fw-btn fw-btn--ghost fw-btn--sm" [routerLink]="['/debts/edit', d._id]">
+        Editar
+      </a>
+    }
+  </header>
+
+  @if (loading()) {
+    <div class="fw-stack" aria-hidden="true">
+      <div class="fw-skeleton skeleton--hero"></div>
+      <div class="fw-skeleton skeleton--block"></div>
+    </div>
+    <p class="fw-sr-only">Cargando la deuda…</p>
+  } @else if (view(); as v) {
+    <article class="fw-card hero">
+      <div class="fw-row-between hero__head">
+        <h1 class="fw-title fw-truncate">{{ v.debt.name }}</h1>
+        @switch (v.status) {
+          @case ('paid') {
+            <span class="fw-chip fw-chip--success">Pagada</span>
+          }
+          @case ('overdue') {
+            <span class="fw-chip fw-chip--danger">Vencida</span>
+          }
+          @case ('soon') {
+            <span class="fw-chip fw-chip--warning">Vence pronto</span>
+          }
+        }
+      </div>
+
+      <p class="fw-label hero__label">Saldo pendiente</p>
+      <p
+        class="fw-amount"
+        [class.fw-negative]="!isPaid()"
+        [class.fw-positive]="isPaid()"
+      >
+        {{ v.debt.remaining_amount | money }}
+      </p>
+
+      <div class="fw-progress hero__bar">
+        <span [style.width.%]="v.percentage" [class.is-done]="isPaid()"></span>
+      </div>
+      <p class="fw-subtitle">
+        Has pagado {{ v.paid | money }} de {{ v.debt.total_amount | money }}
+        ({{ v.percentage }}%)
+      </p>
+
+      <dl class="data">
+        <div class="data__item">
+          <dt class="fw-label">Monto total</dt>
+          <dd class="fw-amount-sm">{{ v.debt.total_amount | money }}</dd>
+        </div>
+        <div class="data__item">
+          <dt class="fw-label">Pagado</dt>
+          <dd class="fw-amount-sm fw-positive">{{ v.paid | money }}</dd>
+        </div>
+        <div class="data__item">
+          <dt class="fw-label">Tasa de interés</dt>
+          <dd class="fw-amount-sm">
+            @if (v.debt.interest_rate) {
+              {{ v.debt.interest_rate }}%
+            } @else {
+              <span class="fw-faint">Sin registrar</span>
+            }
+          </dd>
+        </div>
+        <div class="data__item">
+          <dt class="fw-label">Cuota mínima</dt>
+          <dd class="fw-amount-sm">
+            @if (v.debt.minimum_monthly_payment) {
+              {{ v.debt.minimum_monthly_payment | money }}
+            } @else {
+              <span class="fw-faint">Sin registrar</span>
+            }
+          </dd>
+        </div>
+        <div class="data__item data__item--wide">
+          <dt class="fw-label">Fecha de vencimiento</dt>
+          <dd class="fw-amount-sm">
+            @if (v.debt.due_date) {
+              {{ v.debt.due_date | fecha: 'long' }}
+            } @else {
+              <span class="fw-faint">Sin fecha límite</span>
+            }
+          </dd>
+        </div>
+      </dl>
+    </article>
+
+    @if (isPaid()) {
+      <div class="fw-alert fw-alert--success congrats">
+        <p class="congrats__title">¡Felicidades, la saldaste! 🎉</p>
+        <p class="congrats__text">
+          Terminaste de pagar «{{ v.debt.name }}». Ese dinero que ya no debes
+          puede empezar a trabajar en tus ahorros.
+        </p>
+      </div>
+    } @else {
+      <article class="fw-card">
+        <h2 class="fw-card-title">Abonar a esta deuda</h2>
+
+        <form class="fw-stack" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="fw-field">
+            <label for="amount">Monto del abono</label>
+            <input
+              id="amount"
+              #amountInput
+              type="number"
+              class="fw-input"
+              formControlName="amount"
+              inputmode="numeric"
+              min="1"
+              step="1000"
+              placeholder="50000"
+              [class.is-invalid]="invalid(amount)"
+            />
+            @if (invalid(amount)) {
+              @if (amount.errors?.['required']) {
+                <p class="fw-error">Escribe cuánto vas a abonar.</p>
+              } @else if (amount.errors?.['min']) {
+                <p class="fw-error">El abono debe ser mayor que cero.</p>
+              } @else if (amount.errors?.['overRemaining']) {
+                <p class="fw-error">
+                  El abono no puede superar el saldo pendiente, que es
+                  {{ v.debt.remaining_amount | money }}.
+                </p>
+              }
+            } @else {
+              <p class="fw-hint">
+                Puedes abonar hasta {{ v.debt.remaining_amount | money }}.
+              </p>
+            }
+          </div>
+
+          <div class="fw-field">
+            <label for="payment_date">Fecha del abono</label>
+            <input
+              id="payment_date"
+              type="date"
+              class="fw-input"
+              formControlName="payment_date"
+              [class.is-invalid]="invalid(paymentDate)"
+            />
+            @if (invalid(paymentDate)) {
+              <p class="fw-error">Indica la fecha del abono.</p>
+            }
+          </div>
+
+          <div class="fw-field">
+            <label for="note">Nota (opcional)</label>
+            <input
+              id="note"
+              type="text"
+              class="fw-input"
+              formControlName="note"
+              maxlength="120"
+              placeholder="Ej. Cuota de marzo"
+            />
+          </div>
+
+          <button type="submit" class="fw-btn fw-btn--block" [disabled]="saving()">
+            @if (saving()) {
+              <span class="fw-spinner"></span>
+              Registrando…
+            } @else {
+              Registrar abono
+            }
+          </button>
+        </form>
+      </article>
+    }
+
+    <article class="fw-card">
+      <div class="fw-row-between history__head">
+        <h2 class="fw-card-title history__title">Historial de abonos</h2>
+        @if (!loadingPayments() && payments().length > 0) {
+          <span class="fw-chip">{{ payments().length }}</span>
+        }
+      </div>
+
+      @if (loadingPayments()) {
+        <div class="fw-stack" aria-hidden="true">
+          @for (item of skeletons; track item) {
+            <div class="fw-skeleton skeleton--row"></div>
+          }
+        </div>
+        <p class="fw-sr-only">Cargando el historial…</p>
+      } @else {
+        <ul class="fw-list">
+          @for (payment of payments(); track payment._id) {
+            <li class="fw-item payment">
+              <div class="payment__info">
+                <p class="payment__date">{{ payment.payment_date | fecha }}</p>
+                @if (payment.note) {
+                  <p class="fw-muted payment__note fw-truncate">{{ payment.note }}</p>
+                }
+              </div>
+              <span class="fw-amount-sm fw-positive">{{ payment.amount | money }}</span>
+              <button
+                type="button"
+                class="payment__delete"
+                (click)="removePayment(payment)"
+                [attr.aria-label]="'Eliminar el abono del ' + (payment.payment_date | fecha)"
+              >
+                ✕
+              </button>
+            </li>
+          } @empty {
+            <li>
+              <div class="fw-empty">
+                <div class="fw-empty-icon">🧾</div>
+                <p class="fw-card-title">Aún no has registrado abonos</p>
+                <p>Cada abono que anotes irá bajando el saldo de esta deuda.</p>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </article>
+  } @else {
+    <div class="fw-empty">
+      <div class="fw-empty-icon">🔍</div>
+      <p class="fw-card-title">No encontramos esta deuda</p>
+      <p>Puede que se haya eliminado desde otro dispositivo.</p>
+      <button type="button" class="fw-btn empty-action" routerLink="/debts">
+        Ver mis deudas
+      </button>
+    </div>
+  }
+</section>

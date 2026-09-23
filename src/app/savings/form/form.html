@@ -1,1 +1,181 @@
-<p>form works!</p>
+<section class="fw-page fw-stack-lg">
+  <header class="fw-row-between">
+    <h1 class="fw-title">{{ isEdit ? 'Editar meta' : 'Nueva meta' }}</h1>
+    <span class="head-emoji" aria-hidden="true">{{ emoji() }}</span>
+  </header>
+
+  @if (notFound()) {
+    <div class="fw-card fw-stack">
+      <p class="fw-alert">{{ notFound() }}</p>
+      <button type="button" class="fw-btn fw-btn--ghost" routerLink="/savings">
+        Volver a mis metas
+      </button>
+    </div>
+  } @else if (loading()) {
+    <div class="fw-stack" aria-hidden="true">
+      <div class="fw-skeleton skeleton"></div>
+      <div class="fw-skeleton skeleton"></div>
+      <div class="fw-skeleton skeleton"></div>
+    </div>
+    <p class="fw-sr-only">Cargando la meta…</p>
+  } @else {
+    <form class="fw-stack-lg" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <article class="fw-card fw-stack">
+        <!-- Nombre -->
+        <div class="fw-field">
+          <label for="nombre">¿Qué quieres lograr?</label>
+          <input
+            id="nombre"
+            type="text"
+            class="fw-input"
+            placeholder="Ej. Moto, Viaje a Europa"
+            maxlength="60"
+            autocomplete="off"
+            [class.is-invalid]="invalid(name)"
+            formControlName="name"
+          />
+          @if (invalid(name)) {
+            <p class="fw-error">{{ errorForName() }}</p>
+          }
+
+          <!-- Sugerencias: un toque rellena el nombre -->
+          <div class="suggestions" role="group" aria-label="Sugerencias de nombre">
+            @for (item of suggestions; track item) {
+              <button
+                type="button"
+                class="fw-chip suggestion"
+                [class.fw-chip--primary]="name.value === item"
+                (click)="useSuggestion(item)"
+              >
+                {{ item }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Monto objetivo -->
+        <div class="fw-field">
+          <label for="objetivo">Monto objetivo</label>
+          <input
+            id="objetivo"
+            type="number"
+            inputmode="numeric"
+            class="fw-input"
+            placeholder="0"
+            min="1"
+            [class.is-invalid]="invalid(target)"
+            formControlName="target_amount"
+          />
+          @if (invalid(target)) {
+            <p class="fw-error">{{ errorForTarget() }}</p>
+          } @else {
+            <p class="fw-hint">Cuánto necesitas reunir en total.</p>
+          }
+        </div>
+
+        <!-- Monto ya ahorrado: editable solo al crear la meta -->
+        @if (isEdit) {
+          <div class="fw-field">
+            <span class="fw-label">Ya llevas ahorrado</span>
+            <p class="fw-amount-sm fw-positive saved">
+              {{ currentAmount() | money }}
+            </p>
+            <p class="fw-hint">
+              Este valor se calcula con tus aportes, por eso no se edita aquí.
+              Registra o elimina aportes desde el detalle de la meta.
+            </p>
+            <a class="detail-link" [routerLink]="['/savings/detail', id]">
+              Ir al detalle para registrar aportes
+            </a>
+          </div>
+        } @else {
+          <div class="fw-field">
+            <label for="ahorrado">Monto ya ahorrado (opcional)</label>
+            <input
+              id="ahorrado"
+              type="number"
+              inputmode="numeric"
+              class="fw-input"
+              placeholder="0"
+              min="0"
+              [class.is-invalid]="invalid(current)"
+              formControlName="current_amount"
+            />
+            @if (invalid(current)) {
+              <p class="fw-error">{{ errorForCurrent() }}</p>
+            } @else {
+              <p class="fw-hint">
+                Si ya tienes algo guardado para esta meta, anótalo aquí. Después
+                todo se suma con los aportes.
+              </p>
+            }
+          </div>
+        }
+
+        <!-- Fecha límite -->
+        <div class="fw-field">
+          <label for="limite">Fecha límite (opcional)</label>
+          <input
+            id="limite"
+            type="date"
+            class="fw-input"
+            [attr.min]="isEdit ? null : today"
+            [class.is-invalid]="invalid(deadline)"
+            formControlName="deadline"
+          />
+          @if (invalid(deadline)) {
+            <p class="fw-error">La fecha límite no puede ser anterior a hoy</p>
+          } @else if (isEdit && deadline.value) {
+            <p class="fw-hint">
+              Con una fecha te calculamos cuánto aportar cada mes. Puedes
+              cambiarla, pero por ahora no quitarla.
+            </p>
+          } @else {
+            <p class="fw-hint">
+              Con una fecha te calculamos cuánto aportar cada mes.
+            </p>
+          }
+        </div>
+      </article>
+
+      @if (formError()) {
+        <p class="fw-alert">{{ formError() }}</p>
+      }
+
+      <div class="fw-stack">
+        <button
+          type="submit"
+          class="fw-btn fw-btn--block"
+          [disabled]="saving() || deleting()"
+        >
+          @if (saving()) {
+            <span class="fw-spinner" aria-hidden="true"></span>
+            Guardando…
+          } @else {
+            {{ isEdit ? 'Guardar cambios' : 'Crear meta' }}
+          }
+        </button>
+
+        <button
+          type="button"
+          class="fw-btn fw-btn--ghost fw-btn--block"
+          [disabled]="saving() || deleting()"
+          (click)="cancel()"
+        >
+          Cancelar
+        </button>
+
+        @if (isEdit) {
+          <button
+            type="button"
+            class="fw-btn fw-btn--danger fw-btn--block"
+            [disabled]="saving() || deleting()"
+            (click)="remove()"
+          >
+            {{ deleting() ? 'Eliminando…' : 'Eliminar meta' }}
+          </button>
+        }
+      </div>
+    </form>
+  }
+</section>

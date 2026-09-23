@@ -1,0 +1,145 @@
+/* ---- Carga -------------------------------------------------------------- */
+.skeleton--summary {
+  height: 132px;
+}
+
+.skeleton--card {
+  height: 168px;
+}
+
+.skeleton {
+  border-radius: var(--fw-radius);
+}
+
+/* ---- Estado vacío ------------------------------------------------------- */
+.empty-action {
+  margin-top: 16px;
+}
+
+/* ---- Resumen global ----------------------------------------------------- */
+.summary__amount {
+  margin: 4px 0 0;
+}
+
+.summary__of {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.summary__bar {
+  margin-top: 14px;
+}
+
+/* La barra global va en verde: es dinero ya ahorrado, no deuda. */
+.summary__bar > span.is-positive {
+  background: var(--fw-success);
+}
+
+.summary__caption {
+  margin: 8px 0 0;
+}
+
+/* ---- Tarjeta de meta ---------------------------------------------------- */
+.goal-list {
+  gap: 12px;
+}
+
+.goal {
+  /* El padding lo pone el enlace interno para que toda la tarjeta sea táctil. */
+  padding: 0;
+  display: block;
+}
+
+.goal--done {
+  border: 1px solid var(--fw-success-light);
+}
+
+.goal__body {
+  display: block;
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.goal__body:active {
+  background: var(--fw-surface-alt);
+  border-radius: var(--fw-radius);
+}
+
+.goal__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.goal__emoji {
+  font-size: 20px;
+}
+
+.goal--done .goal__emoji {
+  background: var(--fw-success-light);
+}
+
+.goal__name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.goal__amount {
+  margin: 14px 0 0;
+  font-size: 22px;
+}
+
+.goal__of {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.goal__bar {
+  margin-top: 12px;
+}
+
+.goal__bar > span {
+  background: var(--fw-primary);
+}
+
+.goal__bar > span.is-done {
+  background: var(--fw-success);
+}
+
+.goal__left,
+.goal__plan,
+.goal__congrats {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.goal__congrats {
+  font-weight: 600;
+}
+
+.goal__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.goal__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 16px;
+}
+
+/* ---- Escritorio --------------------------------------------------------- */
+@media (min-width: 768px) {
+  .goal__name {
+    font-size: 17px;
+  }
+
+  .goal__amount {
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,104 @@
+@if (groups().length) {
+  <svg
+    class="chart"
+    [attr.viewBox]="'0 0 ' + width + ' ' + height"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    [attr.aria-label]="ariaLabel()"
+  >
+    <!-- Guía del valor máximo -->
+    <line
+      class="guide"
+      [attr.x1]="padX"
+      [attr.x2]="width - padX"
+      [attr.y1]="guideY"
+      [attr.y2]="guideY"
+    />
+    @if (!callout()) {
+      <text class="guide-label" [attr.x]="padX" [attr.y]="guideY - 7">{{ maxLabel() }}</text>
+    }
+
+    <!-- Línea base -->
+    <line
+      class="axis"
+      [attr.x1]="padX"
+      [attr.x2]="width - padX"
+      [attr.y1]="baseline"
+      [attr.y2]="baseline"
+    />
+
+    @for (group of groups(); track $index; let gi = $index) {
+      @for (bar of group.bars; track bar.series) {
+        @if (bar.path) {
+          <path
+            class="bar"
+            [class.is-dim]="hasSelection() && !isSelected(gi, bar.series)"
+            [attr.d]="bar.path"
+            [attr.fill]="bar.color"
+          />
+        }
+      }
+
+      <text
+        class="x-label"
+        [attr.x]="group.centerX"
+        [attr.y]="labelY"
+        [attr.text-anchor]="rotateLabels() ? 'end' : 'middle'"
+        [attr.transform]="
+          rotateLabels() ? 'rotate(-40 ' + group.centerX + ' ' + labelY + ')' : null
+        "
+      >
+        {{ group.short }}
+      </text>
+    }
+
+    <!-- Zonas táctiles: van encima para que el dedo no falle -->
+    @for (group of groups(); track $index; let gi = $index) {
+      @for (bar of group.bars; track bar.series) {
+        <rect
+          class="hit"
+          role="button"
+          tabindex="0"
+          [attr.x]="bar.hitX"
+          [attr.y]="guideY - 12"
+          [attr.width]="bar.hitWidth"
+          [attr.height]="baseline - guideY + 12"
+          [attr.aria-label]="bar.aria"
+          [attr.aria-pressed]="isSelected(gi, bar.series)"
+          (click)="toggle(gi, bar.series)"
+          (keydown.enter)="toggle(gi, bar.series)"
+          (keydown.space)="toggle(gi, bar.series)"
+        />
+      }
+    }
+
+    @if (callout(); as tip) {
+      <text
+        class="callout"
+        [attr.x]="tip.x"
+        [attr.y]="tip.y"
+        [attr.text-anchor]="tip.anchor"
+      >
+        {{ tip.text }}
+      </text>
+    }
+  </svg>
+
+  @if (hasSecondary()) {
+    <ul class="legend">
+      <li>
+        <span class="dot" [style.background]="primaryColor()" aria-hidden="true"></span>
+        {{ primaryLabel() }}
+      </li>
+      <li>
+        <span class="dot" [style.background]="secondaryColor()" aria-hidden="true"></span>
+        {{ secondaryLabel() }}
+      </li>
+    </ul>
+  }
+} @else {
+  <div class="fw-empty">
+    <div class="fw-empty-icon">📊</div>
+    <p>{{ emptyMessage() }}</p>
+  </div>
+}
