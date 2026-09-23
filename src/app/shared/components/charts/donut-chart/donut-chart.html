@@ -1,0 +1,53 @@
+<div class="donut">
+  <svg
+    class="ring"
+    viewBox="0 0 120 120"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    [attr.aria-label]="ariaLabel()"
+  >
+    <g transform="rotate(-90 60 60)">
+      @if (segments().length) {
+        @for (segment of segments(); track $index) {
+          <circle
+            class="arc"
+            cx="60"
+            cy="60"
+            [attr.r]="radius"
+            [attr.stroke]="segment.color"
+            [attr.stroke-dasharray]="segment.dashArray"
+            [attr.stroke-dashoffset]="segment.dashOffset"
+          />
+        }
+      } @else {
+        <circle class="arc arc--empty" cx="60" cy="60" [attr.r]="radius" />
+      }
+    </g>
+
+    @if (segments().length) {
+      @if (centerLabel()) {
+        <text class="center-label" x="60" y="56">{{ centerLabel() }}</text>
+        <text class="center-value" x="60" y="70">{{ centerValue() }}</text>
+      } @else {
+        <text class="center-value" x="60" y="64">{{ centerValue() }}</text>
+      }
+    } @else {
+      <text class="center-empty" x="60" y="64">Sin datos</text>
+    }
+  </svg>
+
+  @if (segments().length) {
+    <ul class="legend">
+      @for (segment of segments(); track $index) {
+        <li class="legend-item">
+          <span class="dot" [style.background]="segment.color" aria-hidden="true"></span>
+          @if (segment.icon) {
+            <span class="legend-icon" aria-hidden="true">{{ segment.icon }}</span>
+          }
+          <span class="legend-label fw-truncate">{{ segment.label }}</span>
+          <span class="legend-percent">{{ segment.percentLabel }}</span>
+        </li>
+      }
+    </ul>
+  }
+</div>

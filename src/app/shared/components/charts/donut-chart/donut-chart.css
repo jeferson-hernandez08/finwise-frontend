@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.donut {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ring {
+  display: block;
+  width: 100%;
+  /* En escritorio el anillo no debe crecer sin fin. */
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.arc {
+  fill: none;
+  stroke-width: 13;
+  stroke-linecap: butt;
+  transition: stroke-dasharray 0.4s ease, stroke-dashoffset 0.4s ease;
+}
+
+.arc--empty {
+  stroke: var(--fw-border);
+}
+
+/* El texto del centro usa tinta, nunca el color de una serie. */
+.center-label {
+  fill: var(--fw-text-muted);
+  font-size: 8px;
+  font-weight: 600;
+  text-anchor: middle;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.center-value {
+  fill: var(--fw-text);
+  font-size: 15px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+.center-empty {
+  fill: var(--fw-text-faint);
+  font-size: 11px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Renglones altos: se leen mejor y dan margen al dedo. */
+  min-height: 32px;
+  font-size: 13.5px;
+}
+
+.dot {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.legend-icon {
+  flex: 0 0 auto;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.legend-label {
+  flex: 1;
+  color: var(--fw-text);
+}
+
+.legend-percent {
+  flex: 0 0 auto;
+  color: var(--fw-text-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .donut {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ring {
+    flex: 0 0 200px;
+    margin: 0;
+  }
+
+  .legend {
+    flex: 1;
+    min-width: 0;
+  }
+}

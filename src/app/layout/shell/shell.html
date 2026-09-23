@@ -1,0 +1,58 @@
+<header class="shell-header">
+  <div class="shell-header-inner">
+    <a routerLink="/dashboard" class="brand">
+      <span class="brand-mark">FW</span>
+      <span class="brand-name">FinWise</span>
+    </a>
+
+    <div class="fw-spacer"></div>
+
+    <button
+      type="button"
+      class="avatar-btn"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen"
+      aria-haspopup="true"
+      aria-label="Abrir menú de cuenta"
+    >
+      {{ initials() }}
+    </button>
+  </div>
+
+  @if (menuOpen) {
+    <!-- Capa de cierre: tocar fuera del menú lo oculta. -->
+    <div class="menu-backdrop" (click)="closeMenu()"></div>
+    <div class="account-menu" role="menu">
+      <div class="account-menu-head">
+        <div class="fw-avatar">{{ initials() }}</div>
+        <div class="fw-truncate">
+          <div class="account-name fw-truncate">{{ displayName() }}</div>
+          <div class="fw-subtitle">Mi cuenta</div>
+        </div>
+      </div>
+      <button type="button" class="menu-action" role="menuitem" (click)="logout()">
+        Cerrar sesión
+      </button>
+    </div>
+  }
+</header>
+
+<main class="shell-main">
+  <router-outlet />
+</main>
+
+<nav class="shell-nav" aria-label="Navegación principal">
+  @for (item of nav; track item.path) {
+    <a
+      [routerLink]="item.path"
+      routerLinkActive="is-active"
+      class="nav-link"
+    >
+      <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
+      <span class="nav-label">{{ item.label }}</span>
+    </a>
+  }
+</nav>
+
+<app-toast-host />
+<app-confirm-host />

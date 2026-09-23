@@ -1,1 +1,141 @@
-<p>register works!</p>
+<div class="fw-page fw-page--plain">
+  <div class="auth-box fw-stack-lg">
+    <header class="brand">
+      <span class="brand-mark" aria-hidden="true">FW</span>
+      <h1 class="brand-name">FinWise</h1>
+      <p class="brand-claim">Crea tu cuenta y empieza a ordenar tu mes.</p>
+    </header>
+
+    <form class="fw-card fw-stack" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <h2 class="fw-card-title">Crear cuenta</h2>
+
+      @if (errorText()) {
+        <p class="fw-alert" role="alert">{{ errorText() }}</p>
+      }
+
+      <div class="fw-field">
+        <label for="fullName">Nombre completo</label>
+        <input
+          id="fullName"
+          type="text"
+          class="fw-input"
+          formControlName="fullName"
+          [class.is-invalid]="fullName.invalid && (fullName.touched || fullName.dirty)"
+          placeholder="Ana Gómez"
+          autocomplete="name"
+        />
+        @if (fullName.invalid && (fullName.touched || fullName.dirty)) {
+          <p class="fw-error">
+            @if (fullName.hasError('required')) {
+              Escribe tu nombre completo.
+            } @else {
+              El nombre debe tener al menos 3 caracteres.
+            }
+          </p>
+        }
+      </div>
+
+      <div class="fw-field">
+        <label for="email">Correo electrónico</label>
+        <input
+          id="email"
+          type="email"
+          class="fw-input"
+          formControlName="email"
+          [class.is-invalid]="email.invalid && (email.touched || email.dirty)"
+          placeholder="nombre@correo.com"
+          autocomplete="email"
+          inputmode="email"
+          autocapitalize="none"
+          spellcheck="false"
+        />
+        @if (email.invalid && (email.touched || email.dirty)) {
+          <p class="fw-error">
+            @if (email.hasError('required')) {
+              Escribe tu correo electrónico.
+            } @else {
+              El correo no tiene un formato válido.
+            }
+          </p>
+        }
+      </div>
+
+      <div class="fw-field">
+        <label for="password">Contraseña</label>
+        <div class="password-wrap">
+          <input
+            id="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            class="fw-input"
+            formControlName="password"
+            [class.is-invalid]="password.invalid && (password.touched || password.dirty)"
+            placeholder="Mínimo 6 caracteres"
+            autocomplete="new-password"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePassword()"
+            [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            [attr.aria-pressed]="showPassword()"
+          >
+            {{ showPassword() ? 'Ocultar' : 'Ver' }}
+          </button>
+        </div>
+
+        @if (strength() > 0) {
+          <div class="strength" [class]="strengthClass()">
+            <div class="strength-bar"><span></span></div>
+            <span class="strength-label">{{ strengthLabel() }}</span>
+          </div>
+        }
+
+        @if (password.invalid && (password.touched || password.dirty)) {
+          <p class="fw-error">
+            @if (password.hasError('required')) {
+              Escribe una contraseña.
+            } @else {
+              La contraseña debe tener al menos 6 caracteres.
+            }
+          </p>
+        } @else {
+          <p class="fw-hint">Mezcla mayúsculas, números y símbolos para reforzarla.</p>
+        }
+      </div>
+
+      <div class="fw-field">
+        <label for="confirmPassword">Confirmar contraseña</label>
+        <input
+          id="confirmPassword"
+          [type]="showPassword() ? 'text' : 'password'"
+          class="fw-input"
+          formControlName="confirmPassword"
+          [class.is-invalid]="
+            showMismatch || (confirmPassword.invalid && (confirmPassword.touched || confirmPassword.dirty))
+          "
+          placeholder="Repite la contraseña"
+          autocomplete="new-password"
+        />
+        @if (confirmPassword.hasError('required') && (confirmPassword.touched || confirmPassword.dirty)) {
+          <p class="fw-error">Repite la contraseña.</p>
+        } @else if (showMismatch) {
+          <p class="fw-error">Las contraseñas no coinciden.</p>
+        }
+      </div>
+
+      <button type="submit" class="fw-btn fw-btn--block" [disabled]="loading()">
+        @if (loading()) {
+          <span class="fw-spinner" aria-hidden="true"></span>
+          <span>Creando cuenta…</span>
+        } @else {
+          <span>Crear cuenta</span>
+        }
+      </button>
+    </form>
+
+    <p class="auth-foot fw-subtitle">
+      ¿Ya tienes cuenta?
+      <a routerLink="/auth/login" class="auth-link">Inicia sesión</a>
+    </p>
+  </div>
+</div>

@@ -1,1 +1,179 @@
-<p>list works!</p>
+<div class="fw-page">
+  <div class="fw-stack-lg">
+    <app-month-switcher />
+
+    <!-- Resumen del mes -->
+    <section class="fw-card summary">
+      <div class="fw-label">Gastado en {{ period.labelShort() }}</div>
+      @if (loading()) {
+        <div class="fw-skeleton skeleton-amount"></div>
+      } @else {
+        <div class="fw-amount">{{ total() | money }}</div>
+        <div class="fw-subtitle">
+          {{ count() }} {{ count() === 1 ? 'movimiento' : 'movimientos' }}
+        </div>
+        @if (isFiltered()) {
+          <div class="summary-filtered fw-subtitle">
+            Filtrado: <strong>{{ filteredTotal() | money }}</strong> en
+            {{ filtered().length }}
+            {{ filtered().length === 1 ? 'movimiento' : 'movimientos' }}
+          </div>
+        }
+      }
+    </section>
+
+    @if (loading()) {
+      <!-- Carga -->
+      <div class="fw-stack" aria-live="polite">
+        <span class="fw-sr-only">Cargando gastos…</span>
+        @for (row of skeletonRows; track row) {
+          <div class="fw-skeleton skeleton-item"></div>
+        }
+      </div>
+    } @else if (failed()) {
+      <!-- Error de carga -->
+      <div class="fw-card fw-stack">
+        <p class="fw-alert">No pudimos cargar tus gastos de este mes.</p>
+        <button type="button" class="fw-btn fw-btn--ghost" (click)="reload()">
+          Reintentar
+        </button>
+      </div>
+    } @else if (count() === 0) {
+      <!-- Mes sin gastos -->
+      <div class="fw-card fw-empty">
+        <div class="fw-empty-icon" aria-hidden="true">🧾</div>
+        <p>Aún no registras gastos en {{ period.label() }}</p>
+        <button type="button" class="fw-btn" (click)="goToNew()">
+          Registrar el primero
+        </button>
+      </div>
+    } @else {
+      <!-- Filtro por categoría -->
+      <div class="filters fw-stack">
+        <div class="chips" role="group" aria-label="Filtrar por categoría">
+          <button
+            type="button"
+            class="fw-chip chip"
+            [class.fw-chip--primary]="selectedCategory() === null"
+            [attr.aria-pressed]="selectedCategory() === null"
+            (click)="selectCategory(null)"
+          >
+            Todas
+          </button>
+          @for (chip of chips(); track chip.id) {
+            <button
+              type="button"
+              class="fw-chip chip"
+              [class.fw-chip--primary]="selectedCategory() === chip.id"
+              [attr.aria-pressed]="selectedCategory() === chip.id"
+              (click)="selectCategory(chip.id)"
+            >
+              <span aria-hidden="true">{{ chip.icon }}</span>
+              {{ chip.label }}
+              <span class="chip-count">{{ chip.count }}</span>
+            </button>
+          }
+        </div>
+
+        <!-- Buscador (filtra en cliente, sin pedir nada al servidor) -->
+        <div class="search">
+          <span class="search-icon" aria-hidden="true">🔎</span>
+          <label class="fw-sr-only" for="buscar">Buscar por descripción</label>
+          <input
+            id="buscar"
+            type="search"
+            class="fw-input search-input"
+            placeholder="Buscar por descripción…"
+            autocomplete="off"
+            [value]="search()"
+            (input)="onSearch($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Gastos agrupados por día -->
+      <div class="fw-stack-lg">
+        @for (group of groups(); track group.key) {
+          <section class="day">
+            <header class="day-head">
+              <h2 class="day-title">{{ group.label }}</h2>
+              <span class="day-total">{{ group.total | money }}</span>
+            </header>
+
+            <ul class="fw-list">
+              @for (expense of group.items; track expense._id) {
+                <li
+                  class="fw-item item"
+                  [class.is-deleting]="deletingId() === expense._id"
+                >
+                  <button
+                    type="button"
+                    class="item-main"
+                    (click)="open(expense)"
+                    [attr.aria-label]="'Editar ' + title(expense)"
+                  >
+                    <span class="fw-avatar" aria-hidden="true">
+                      {{ categoryIcon(expense) }}
+                    </span>
+
+                    <span class="item-text">
+                      <span class="item-title fw-truncate">{{
+                        title(expense)
+                      }}</span>
+                      <span class="item-sub">
+                        <span class="fw-truncate">{{
+                          categoryLabel(expense)
+                        }}</span>
+                        @if (isDebtPayment(expense)) {
+                          <span class="fw-chip fw-chip--warning"
+                            >Pago de deuda</span
+                          >
+                        }
+                      </span>
+                    </span>
+
+                    <span class="fw-amount-sm item-amount">
+                      {{ expense.amount | money }}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="item-delete"
+                    [disabled]="deletingId() === expense._id"
+                    (click)="onDelete(expense, $event)"
+                    [attr.aria-label]="'Eliminar ' + title(expense)"
+                  >
+                    ✕
+                  </button>
+                </li>
+              }
+            </ul>
+          </section>
+        } @empty {
+          <!-- Hay gastos en el mes, pero ninguno pasa el filtro -->
+          <div class="fw-card fw-empty">
+            <div class="fw-empty-icon" aria-hidden="true">🔍</div>
+            <p>Ningún gasto coincide con lo que buscas.</p>
+            <button
+              type="button"
+              class="fw-btn fw-btn--ghost"
+              (click)="clearFilters()"
+            >
+              Quitar filtros
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<button
+  type="button"
+  class="fw-fab"
+  (click)="goToNew()"
+  aria-label="Registrar gasto"
+>
+  +
+</button>

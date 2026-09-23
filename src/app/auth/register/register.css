@@ -1,0 +1,144 @@
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.brand {
+  text-align: center;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--fw-primary);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  box-shadow: var(--fw-shadow);
+}
+
+.brand-name {
+  margin-top: 12px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-claim {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--fw-text-muted);
+}
+
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap .fw-input {
+  padding-right: 76px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  min-width: 64px;
+  min-height: 44px;
+  border: none;
+  border-radius: var(--fw-radius-sm);
+  background: transparent;
+  color: var(--fw-primary-dark);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.password-toggle:active {
+  background: var(--fw-surface-alt);
+}
+
+/* --- Fortaleza de la contraseña ---------------------------------------- */
+.strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--fw-radius-pill);
+  background: var(--fw-border);
+  overflow: hidden;
+}
+
+.strength-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.strength-label {
+  font-size: 12px;
+  font-weight: 700;
+  /* Ancho fijo para que la barra no salte al cambiar la palabra. */
+  min-width: 48px;
+  text-align: right;
+}
+
+.strength.is-weak .strength-bar > span {
+  width: 33%;
+  background: var(--fw-danger);
+}
+
+.strength.is-weak .strength-label {
+  color: var(--fw-danger);
+}
+
+.strength.is-medium .strength-bar > span {
+  width: 66%;
+  background: var(--fw-warning);
+}
+
+.strength.is-medium .strength-label {
+  color: #b45309;
+}
+
+.strength.is-strong .strength-bar > span {
+  width: 100%;
+  background: var(--fw-success);
+}
+
+.strength.is-strong .strength-label {
+  color: #15803d;
+}
+
+.auth-foot {
+  text-align: center;
+}
+
+.auth-link {
+  color: var(--fw-primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block;
+  padding: 6px 4px;
+}
+
+@media (min-width: 768px) {
+  .brand-mark {
+    width: 64px;
+    height: 64px;
+    font-size: 23px;
+  }
+}

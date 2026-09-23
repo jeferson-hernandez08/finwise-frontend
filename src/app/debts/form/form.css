@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+p {
+  margin: 0;
+}
+
+a.fw-btn {
+  text-decoration: none;
+}
+
+.skeleton--form {
+  height: 420px;
+}
+
+.optional__title {
+  margin-bottom: 0;
+}
+
+.actions {
+  gap: 10px;
+}
+
+/* En escritorio los botones caben en una fila y la acción destructiva se separa. */
+@media (min-width: 768px) {
+  .actions {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .actions .fw-btn--block {
+    width: auto;
+    min-width: 140px;
+  }
+
+  .actions .fw-btn--danger {
+    margin-right: auto;
+  }
+}
