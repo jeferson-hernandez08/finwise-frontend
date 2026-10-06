@@ -1,19 +1,9 @@
 import { Routes } from '@angular/router';
+import { List } from './list/list';
+import { Form } from './form/form';
 
 export const incomesRoutes: Routes = [
-  {
-    path: '',
-    title: 'Ingresos · FinWise',
-    loadComponent: () => import('./list/list').then(m => m.IncomesList),
-  },
-  {
-    path: 'new',
-    title: 'Registrar ingreso · FinWise',
-    loadComponent: () => import('./form/form').then(m => m.IncomeForm),
-  },
-  {
-    path: 'edit/:id',
-    title: 'Editar ingreso · FinWise',
-    loadComponent: () => import('./form/form').then(m => m.IncomeForm),
-  },
+  { path: '', component: List },
+  { path: 'new', component: Form },
+  { path: 'edit/:id', component: Form }
 ];
