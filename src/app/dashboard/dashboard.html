@@ -1,1 +1,58 @@
-<p>dashboard works!</p>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>📊 Dashboard FinWise</h1>
+    <div>
+      <span class="me-3 text-muted">{{ user()?.email }}</span>
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row mt-4 g-3">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h6 class="card-title">Ingresos</h6>
+          <p class="card-text display-6">$0</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body">
+          <h6 class="card-title">Gastos</h6>
+          <p class="card-text display-6">$0</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h6 class="card-title">Ahorros</h6>
+          <p class="card-text display-6">$0</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning">
+        <div class="card-body">
+          <h6 class="card-title">Deudas</h6>
+          <p class="card-text display-6">$0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 g-3">
+    <div class="col-md-4">
+      <a routerLink="/incomes" class="btn btn-primary w-100 p-3">💵 Gestionar Ingresos</a>
+    </div>
+    <div class="col-md-4">
+      <a routerLink="/expenses" class="btn btn-danger w-100 p-3">💸 Gestionar Gastos</a>
+    </div>
+    <div class="col-md-4">
+      <a routerLink="/savings" class="btn btn-success w-100 p-3">🏦 Ver Ahorros</a>
+    </div>
+  </div>
+</div>
