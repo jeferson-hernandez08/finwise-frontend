@@ -1,1 +1,56 @@
-<p>form works!</p>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            {{ isEditMode() ? '✏️ Editar Ingreso' : '➕ Nuevo Ingreso' }}
+          </h4>
+        </div>
+        <div class="card-body">
+          
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label">Monto del Ingreso ($)</label>
+              <input type="number" class="form-control" formControlName="amount" placeholder="Ej: 1500.50">
+              @if (incomeForm.get('amount')?.invalid && incomeForm.get('amount')?.touched) {
+                <div class="text-danger small">Ingresa un monto válido mayor a 0</div>
+              }
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Mes</label>
+                <select class="form-select" formControlName="month">
+                  <option value="" disabled selected>Selecciona un mes</option>
+                  @for (m of months; track m.value) {
+                    <option [value]="m.value">{{ m.name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Año</label>
+                <input type="number" class="form-control" formControlName="year">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a routerLink="/incomes" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary" [disabled]="incomeForm.invalid || isLoading()">
+                {{ isLoading() ? 'Guardando...' : 'Guardar Ingreso' }}
+              </button>
+            </div>
+            
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
