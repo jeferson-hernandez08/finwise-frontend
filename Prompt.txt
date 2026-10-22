@@ -31,6 +31,8 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Quede a pasar ULTIMO CHAT DEESEEK generé modulos completos voy para el paso 
-   Ultimo chat , En arrancar Frontend y Backend , estructura Basica , conectar claude Front
-   🛠️ Paso 8: Ejecutar ng serve
+3. Quede a pasar ULTIMO CHAT DEESEEK :
+   1. Se inicia con el CRUD de la entidad de savings_goals terminar 
+   2. Validar la creacion de CRUD de tabla o entidad expense_categories ya que se esta consimiendo
+      desde el backend no cuenta con CRUD. 
+   3. Se valida que en la interface no tiene gestion de deudas y en el frontend no se ha realizado.
