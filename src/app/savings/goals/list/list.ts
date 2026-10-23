@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SavingsService } from '../savings.service';
+import { SavingsService } from '../../savings.service';
 
 @Component({
   selector: 'app-list',
