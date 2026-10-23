@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">➕ Nuevo Aporte</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (goalInfo()) {
+            <div class="alert alert-light border border-success mb-4">
+              Abonando a la meta: <strong>{{ goalInfo().name }}</strong><br>
+              <small class="text-muted">Ahorro actual: ${{ goalInfo().current_amount | number:'1.2-2' }} de ${{ goalInfo().target_amount | number:'1.2-2' }}</small>
+            </div>
+          }
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="contributionForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label">Monto a Aportar ($)</label>
+              <input type="number" class="form-control" formControlName="amount" placeholder="Ej: 200">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Fecha del Aporte</label>
+              <input type="date" class="form-control" formControlName="date">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Nota (Opcional)</label>
+              <input type="text" class="form-control" formControlName="note" placeholder="Ej: Ahorro del mes de Octubre">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a [routerLink]="['/savings', goalId(), 'contributions']" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-success" [disabled]="contributionForm.invalid || isLoading()">
+                {{ isLoading() ? 'Guardando...' : 'Guardar Aporte' }}
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
