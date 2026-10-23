@@ -26,4 +26,21 @@ export class SavingsService {
   deleteSavingsGoal(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  // --- CONTRIBUCIONES (Aportes) ---
+  // Obtener aportes de una meta específica
+  getContributions(goalId: string) {
+    return this.http.get<any[]>(`${environment.apiUrl}/savings-contributions/goal/${goalId}`);
+  }
+
+  // Crear un nuevo aporte
+  createContribution(data: any) {
+    return this.http.post<any>(`${environment.apiUrl}/savings-contributions`, data);
+  }
+
+  // Eliminar un aporte
+  deleteContribution(id: string) {
+    return this.http.delete(`${environment.apiUrl}/savings-contributions/${id}`);
+  }
+  
 }

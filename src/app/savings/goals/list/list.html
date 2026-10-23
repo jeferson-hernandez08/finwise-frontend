@@ -15,11 +15,14 @@
         <div class="col-md-6 mb-4">
           <div class="card shadow-sm h-100">
             <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">{{ goal.name }}</h5>
-              <div>
-                <a [routerLink]="['/savings/edit', goal._id]" class="btn btn-sm btn-light me-1">✏️</a>
-                <button (click)="deleteGoal(goal._id)" class="btn btn-sm btn-outline-light">🗑️</button>
-              </div>
+                <h5 class="mb-0">{{ goal.name }}</h5>
+                <div>
+                    <!-- NUEVO BOTÓN PARA VER APORTES -->
+                    <a [routerLink]="['/savings', goal._id, 'contributions']" class="btn btn-sm btn-info me-1">Ver Aportes</a>
+                    
+                    <a [routerLink]="['/savings/edit', goal._id]" class="btn btn-sm btn-light me-1">✏️</a>
+                    <button (click)="deleteGoal(goal._id)" class="btn btn-sm btn-outline-light">🗑️</button>
+                </div>
             </div>
             <div class="card-body">
               
