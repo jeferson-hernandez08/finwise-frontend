@@ -5,6 +5,8 @@ import { Form as GoalsForm } from './goals/form/form';
 // Importamos los Aportes (Contributions)
 import { ContributionsList } from './contributions/list/contributions-list';
 import { ContributionForm } from './contributions/form/contribution-form';
+// Importamos nuevo componente edit
+import { Edit } from './contributions/edit/edit';
 
 export const savingsRoutes: Routes = [
   // Rutas para las Metas
@@ -14,5 +16,6 @@ export const savingsRoutes: Routes = [
   
   // Rutas para los Aportes
   { path: ':id/contributions', component: ContributionsList },
-  { path: ':id/contributions/new', component: ContributionForm }
+  { path: ':id/contributions/new', component: ContributionForm },
+  { path: ':id/contributions/edit/:contribId', component: Edit }
 ];

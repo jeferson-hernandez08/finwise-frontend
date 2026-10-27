@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">✏️ Editar Aporte</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (originalContribution()) {
+            <!-- Mostramos los datos "bloqueados" (no editables) -->
+            <div class="alert alert-secondary">
+              <div class="d-flex justify-content-between">
+                <span><strong>Monto original:</strong></span>
+                <span class="text-success fw-bold">+ ${{ originalContribution().amount | number:'1.2-2' }}</span>
+              </div>
+              <div class="d-flex justify-content-between mt-1">
+                <span><strong>Fecha:</strong></span>
+                <span>{{ originalContribution().date | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <hr class="my-2">
+              <small class="text-muted">
+                <i>El monto y la fecha no se pueden editar. Si te equivocaste, elimina este aporte y crea uno nuevo.</i>
+              </small>
+            </div>
+          }
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label">Nota / Descripción</label>
+              <input type="text" class="form-control" formControlName="note" placeholder="Ej: Ahorro de octubre...">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a [routerLink]="['/savings', goalId(), 'contributions']" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
+                {{ isLoading() ? 'Guardando...' : 'Guardar Cambios' }}
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

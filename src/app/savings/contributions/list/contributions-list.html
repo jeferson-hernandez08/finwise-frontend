@@ -42,6 +42,11 @@
               <td>{{ contrib.note || '-' }}</td>
               <td class="text-success fw-bold">+ ${{ contrib.amount | number:'1.2-2' }}</td>
               <td class="text-end">
+                <!-- Botón Editar -->
+                <a [routerLink]="['/savings', goalId(), 'contributions', 'edit', contrib._id]" class="btn btn-sm btn-outline-primary me-2">
+                  ✏️
+                </a>
+                <!-- Botón Eliminar -->
                 <button (click)="deleteContribution(contrib._id)" class="btn btn-sm btn-outline-danger">
                   🗑️
                 </button>
