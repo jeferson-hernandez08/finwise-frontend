@@ -42,5 +42,16 @@ export class SavingsService {
   deleteContribution(id: string) {
     return this.http.delete(`${environment.apiUrl}/savings-contributions/${id}`);
   }
+
+  // Editar nota del aporte
+  // Obtener un aporte por ID (necesario para llenar el formulario de edición)
+  getContribution(id: string) {
+    return this.http.get<any>(`${environment.apiUrl}/savings-contributions/${id}`);
+  }
+
+  // Actualizar un aporte (El backend solo permite cambiar la nota)
+  updateContribution(id: string, data: any) {
+    return this.http.patch<any>(`${environment.apiUrl}/savings-contributions/${id}`, data);
+  }
   
 }
