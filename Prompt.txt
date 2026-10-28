@@ -37,4 +37,4 @@ Promt Continuación
    2. Realizar nueva tabla tabla roles para administracion del sistema
    3. Se valida que en la interface no tiene gestion de deudas y en el frontend no se ha realizado.
    4. Validar que en el CRUD de savings contributions no tiene el editar validar primeramente
-      para crearlo
+      para crearlo , REALIZADO OK
