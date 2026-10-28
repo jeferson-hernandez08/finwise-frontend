@@ -1,1 +1,63 @@
-<p>form works!</p>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-7">
+      <div class="card shadow-sm border-warning">
+        <div class="card-header bg-warning text-dark">
+          <h4 class="mb-0">{{ isEditMode() ? '✏️ Editar Deuda' : '➕ Nueva Deuda' }}</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="debtForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label">Nombre de la Deuda</label>
+              <input type="text" class="form-control" formControlName="name" placeholder="Ej: Tarjeta de crédito, Préstamo coche">
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Monto Total ($)</label>
+                <input type="number" class="form-control" formControlName="total_amount" placeholder="Ej: 5000">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Saldo Restante ($)</label>
+                <input type="number" class="form-control" formControlName="remaining_amount" placeholder="Ej: 4500">
+                <small class="text-muted">¿Cuánto debes actualmente?</small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Cuota Mínima (Opcional)</label>
+                <input type="number" class="form-control" formControlName="minimum_monthly_payment" placeholder="Ej: 200">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Interés % (Opcional)</label>
+                <input type="number" class="form-control" formControlName="interest_rate" placeholder="Ej: 15.5">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Fecha Vencimiento</label>
+                <input type="date" class="form-control" formControlName="due_date">
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a routerLink="/debts" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-warning" [disabled]="debtForm.invalid || isLoading()">
+                {{ isLoading() ? 'Guardando...' : 'Guardar Deuda' }}
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
