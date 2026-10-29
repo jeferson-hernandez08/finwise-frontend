@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-success">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">💵 Registrar Pago</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (debtInfo()) {
+            <div class="alert alert-light border border-warning mb-4">
+              Pagando la deuda: <strong>{{ debtInfo().name }}</strong><br>
+              <small class="text-muted">Saldo pendiente actual: <span class="text-danger fw-bold">${{ debtInfo().remaining_amount | number:'1.2-2' }}</span></small>
+            </div>
+          }
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label">Monto a Pagar ($)</label>
+              <input type="number" class="form-control" formControlName="amount" placeholder="Ej: 150">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Fecha de Pago</label>
+              <input type="date" class="form-control" formControlName="payment_date">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Nota (Opcional)</label>
+              <input type="text" class="form-control" formControlName="note" placeholder="Ej: Pago cuota de Octubre">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a [routerLink]="['/debts', debtId(), 'payments']" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-success" [disabled]="paymentForm.invalid || isLoading()">
+                {{ isLoading() ? 'Procesando...' : 'Confirmar Pago' }}
+              </button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

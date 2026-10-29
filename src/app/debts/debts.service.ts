@@ -26,4 +26,21 @@ export class DebtsService {
   deleteDebt(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  // --- PAGOS DE DEUDAS ---
+  // Obtener pagos de una deuda específica
+  getDebtPayments(debtId: string) {
+    return this.http.get<any[]>(`${environment.apiUrl}/debt-payments/debt/${debtId}`);
+  }
+
+  // Crear un nuevo pago
+  createDebtPayment(data: any) {
+    return this.http.post<any>(`${environment.apiUrl}/debt-payments`, data);
+  }
+
+  // Eliminar un pago
+  deleteDebtPayment(id: string) {
+    return this.http.delete(`${environment.apiUrl}/debt-payments/${id}`);
+  }
+
 }
