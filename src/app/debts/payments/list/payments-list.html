@@ -45,6 +45,11 @@
               <td>{{ payment.note || '-' }}</td>
               <td class="text-success fw-bold">- ${{ payment.amount | number:'1.2-2' }}</td>
               <td class="text-end">
+                <!-- Botón Editar -->
+                <a [routerLink]="['/debts', debtId(), 'payments', 'edit', payment._id]" class="btn btn-sm btn-outline-primary me-2">
+                    ✏️
+                </a>
+                <!-- Botón Eliminar -->
                 <button (click)="deletePayment(payment._id)" class="btn btn-sm btn-outline-danger">
                   🗑️
                 </button>
