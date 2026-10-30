@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">✏️ Editar Nota del Pago</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (originalPayment()) {
+            <!-- Recuadro que muestra los datos originales bloqueados -->
+            <div class="alert alert-secondary">
+              <div class="d-flex justify-content-between">
+                <span><strong>Monto pagado:</strong></span>
+                <span class="text-success fw-bold">- ${{ originalPayment().amount | number:'1.2-2' }}</span>
+              </div>
+              <div class="d-flex justify-content-between mt-1">
+                <span><strong>Fecha del pago:</strong></span>
+                <span>{{ originalPayment().payment_date | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <hr class="my-2">
+              <small class="text-muted">
+                <i>El monto y la fecha no se pueden editar para proteger la integridad financiera. Si te equivocaste en el monto, elimina este pago y registra uno nuevo.</i>
+              </small>
+            </div>
+          }
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label">Nota / Descripción</label>
+              <input type="text" class="form-control" formControlName="note" placeholder="Ej: Ajuste de cuota, pago en efectivo...">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a [routerLink]="['/debts', debtId(), 'payments']" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
+                {{ isLoading() ? 'Guardando...' : 'Guardar Cambios' }}
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

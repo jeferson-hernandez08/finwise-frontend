@@ -43,4 +43,13 @@ export class DebtsService {
     return this.http.delete(`${environment.apiUrl}/debt-payments/${id}`);
   }
 
+  // --- MÉTODOS PARA EDITAR PAGOS ---
+  getDebtPayment(id: string) {
+    return this.http.get<any>(`${environment.apiUrl}/debt-payments/${id}`);
+  }
+
+  updateDebtPayment(id: string, data: any) {
+    return this.http.patch<any>(`${environment.apiUrl}/debt-payments/${id}`, data);
+  }
+
 }
