@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-dark">
+        <div class="card-header bg-dark text-white">
+          <h4 class="mb-0">{{ isEditMode() ? '✏️ Editar Categoría' : '➕ Nueva Categoría' }}</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label">Nombre de la Categoría</label>
+              <input type="text" class="form-control" formControlName="name" placeholder="Ej: Alimentación, Mascotas, Inversiones...">
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a routerLink="/categories" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-dark" [disabled]="categoryForm.invalid || isLoading()">
+                {{ isLoading() ? 'Guardando...' : 'Guardar Categoría' }}
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
