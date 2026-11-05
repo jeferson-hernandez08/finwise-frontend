@@ -35,4 +35,3 @@ Promt Continuación
    1. Validar la creacion de CRUD de tabla o entidad expense_categories ya que se esta consimiendo
       desde el backend no cuenta con CRUD.
    2. Realizar nueva tabla tabla roles para administracion del sistema
-   3. Validar que en el CRUD de debts payments ya que no tiene editar.
