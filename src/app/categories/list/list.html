@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🗂️ Administración de Categorías</h2>
+    <a routerLink="/categories/new" class="btn btn-dark">+ Nueva Categoría</a>
+  </div>
+
+  @if (isLoading()) {
+    <p>Cargando...</p>
+  } @else {
+    <table class="table table-bordered table-hover shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cat of categories(); track cat._id) {
+          <tr>
+            <td><small class="text-muted">{{ cat._id }}</small></td>
+            <td class="fw-bold">{{ cat.name }}</td>
+            <td class="text-end">
+              <a [routerLink]="['/categories/edit', cat._id]" class="btn btn-sm btn-outline-primary me-2">✏️ Editar</a>
+              <button (click)="deleteCategory(cat._id)" class="btn btn-sm btn-outline-danger">🗑️ Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
