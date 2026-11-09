@@ -31,7 +31,5 @@ Promt Continuación
    ultimo Angular ultima version
 2. Se instala Angular 22.1.5
 
-3. Quede a pasar ULTIMO CHAT DEESEEK :
-   1. Validar la creacion de CRUD de tabla o entidad expense_categories ya que se esta consimiendo
-      desde el backend no cuenta con CRUD.
-   2. Realizar nueva tabla tabla roles para administracion del sistema
+3. Quede a pasar ULTIMO CHAT DEESEEK 
+   1. Realizar CRUD de ususarios desde rol administrador del sistema
