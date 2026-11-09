@@ -9,57 +9,59 @@
 
   <hr>
 
+  <!-- TARJETAS DE RESUMEN -->
   <div class="row mt-4 g-3">
     <div class="col-md-3">
-      <div class="card text-white bg-primary">
+      <div class="card text-white bg-primary shadow-sm">
         <div class="card-body">
-          <h6 class="card-title">Ingresos</h6>
-          <p class="card-text display-6">$0</p>
+          <h6 class="card-title text-uppercase">Ingresos Totales</h6>
+          <p class="card-text display-6">${{ totalIncomes() | number:'1.2-2' }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-white bg-danger">
+      <div class="card text-white bg-danger shadow-sm">
         <div class="card-body">
-          <h6 class="card-title">Gastos</h6>
-          <p class="card-text display-6">$0</p>
+          <h6 class="card-title text-uppercase">Gastos Totales</h6>
+          <p class="card-text display-6">${{ totalExpenses() | number:'1.2-2' }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-white bg-success">
+      <div class="card text-white bg-success shadow-sm">
         <div class="card-body">
-          <h6 class="card-title">Ahorros</h6>
-          <p class="card-text display-6">$0</p>
+          <h6 class="card-title text-uppercase">Ahorro Acumulado</h6>
+          <p class="card-text display-6">${{ totalSavings() | number:'1.2-2' }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-white bg-warning">
+      <div class="card text-dark bg-warning shadow-sm">
         <div class="card-body">
-          <h6 class="card-title">Deudas</h6>
-          <p class="card-text display-6">$0</p>
+          <h6 class="card-title text-uppercase">Deuda Pendiente</h6>
+          <p class="card-text display-6">${{ totalDebts() | number:'1.2-2' }}</p>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- BOTONES DE ACCIÓN -->
   <div class="row mt-4 g-3">
-    <div class="col-md-4">
-      <a routerLink="/incomes" class="btn btn-primary w-100 p-3">💵 Gestionar Ingresos</a>
-    </div>
-    <div class="col-md-4">
-      <a routerLink="/expenses" class="btn btn-danger w-100 p-3">💸 Gestionar Gastos</a>
-    </div>
-    <div class="col-md-4">
-      <a routerLink="/savings" class="btn btn-success w-100 p-3">🏦 Ver Ahorros</a>
+    <div class="col-md-3">
+      <a routerLink="/incomes" class="btn btn-primary w-100 p-3 fw-bold">💵 Gestionar Ingresos</a>
     </div>
     <div class="col-md-3">
-      <a routerLink="/debts" class="btn btn-warning w-100 p-3 text-white">💳 Gestionar Deudas</a>
+      <a routerLink="/expenses" class="btn btn-danger w-100 p-3 fw-bold">💸 Gestionar Gastos</a>
+    </div>
+    <div class="col-md-3">
+      <a routerLink="/savings" class="btn btn-success w-100 p-3 fw-bold">🏦 Ver Ahorros</a>
+    </div>
+    <div class="col-md-3">
+      <a routerLink="/debts" class="btn btn-warning w-100 p-3 text-white fw-bold">💳 Gestionar Deudas</a>
     </div>
   </div>
 
-  <!-- Panel de Administrador - Solo se muestra si userRole es 'admin' -->
+  <!-- PANEL DE ADMINISTRADOR (Ya lo tienes) -->
   @if (userRole() === 'admin') {
     <div class="row mt-5">
       <div class="col-12">
@@ -67,7 +69,7 @@
           <div class="card-body d-flex justify-content-between align-items-center">
             <div>
               <h4 class="mb-1">⚙️ Panel de Administrador</h4>
-              <p class="mb-0 text-light opacity-75">Gestiona las categorías globales del sistema. (Solo visible para ti).</p>
+              <p class="mb-0 text-light opacity-75">Gestiona las categorías globales del sistema.</p>
             </div>
             <a routerLink="/categories" class="btn btn-light fw-bold">Gestionar Categorías</a>
           </div>
@@ -76,4 +78,22 @@
     </div>
   }
 
+  <!-- NUEVA TARJETA: BALANCE DEL MES (La guinda del pastel) -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card border-info shadow-sm">
+        <div class="card-header bg-info text-white fw-bold">
+          💰 Balance Real (Ingresos - Gastos)
+        </div>
+        <div class="card-body text-center">
+          <!-- Calculamos el saldo en tiempo real: Ingresos - Gastos -->
+          @let balance = totalIncomes() - totalExpenses();
+          <h2 class="display-4" [class.text-success]="balance >= 0" [class.text-danger]="balance < 0">
+            ${{ balance | number:'1.2-2' }}
+          </h2>
+          <p class="text-muted mb-0">Este es el dinero que realmente te queda después de pagar tus gastos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
