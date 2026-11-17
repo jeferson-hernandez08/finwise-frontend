@@ -36,6 +36,11 @@ export const routes: Routes = [
     loadChildren: () => import('./categories/categories.routes').then(m => m.categoriesRoutes),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.routes').then(m => m.usersRoutes),
+    canActivate: [AuthGuard]
+  },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: '/dashboard' }
 ];
