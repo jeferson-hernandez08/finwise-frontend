@@ -1,1 +1,64 @@
-<p>form works!</p>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-dark">
+        <div class="card-header bg-dark text-white">
+          <h4 class="mb-0">{{ isEditMode() ? '✏️ Editar Usuario' : '➕ Nuevo Usuario' }}</h4>
+        </div>
+        <div class="card-body">
+          
+          @if (errorMessage()) {
+            <div class="alert alert-danger">{{ errorMessage() }}</div>
+          }
+
+          <!-- Aviso si es cuenta de Google -->
+          @if (isGoogleUser()) {
+            <div class="alert alert-info">
+              Este usuario inició sesión con Google. No requiere contraseña local.
+            </div>
+          }
+
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label">Nombre Completo</label>
+              <input type="text" class="form-control" formControlName="full_name">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" formControlName="email">
+            </div>
+
+            <!-- El campo de contraseña se oculta si es usuario de Google -->
+            @if (!isGoogleUser()) {
+              <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" formControlName="password" placeholder="Mínimo 6 caracteres">
+                @if (isEditMode()) {
+                  <small class="text-muted">Deja en blanco para mantener la contraseña actual (si el backend lo soporta).</small>
+                }
+              </div>
+            }
+
+            <div class="mb-3">
+              <label class="form-label">Rol del Sistema</label>
+              <select class="form-select" formControlName="role_id">
+                <option value="" disabled>Selecciona un rol</option>
+                @for (role of roles(); track role._id) {
+                  <option [value]="role._id">{{ role.name | uppercase }} - {{ role.description }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <a routerLink="/users" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-dark" [disabled]="userForm.invalid">Guardar Usuario</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
